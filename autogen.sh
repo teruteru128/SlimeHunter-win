@@ -1,4 +1,4 @@
 #!/bin/sh
 
-autoreconf --add-missing --copy
+autoreconf -i
 
