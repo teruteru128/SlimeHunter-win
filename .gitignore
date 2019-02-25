@@ -54,6 +54,7 @@ dkms.conf
 # http://www.gnu.org/software/automake
 
 Makefile.in
+Makefile
 /ar-lib
 /mdate-sh
 /py-compile
