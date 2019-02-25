@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([SlimeHunter], [0.0.0-alpha], [teruterubouzu1024@gmail.com])
+AC_INIT([SlimeHunter], [0.1.0], [teruterubouzu1024@gmail.com])
 AC_CONFIG_SRCDIR([src/SlimeHunter.c])
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign])
