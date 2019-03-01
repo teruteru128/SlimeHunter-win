@@ -63,7 +63,7 @@ Makefile
 
 # http://www.gnu.org/software/autoconf
 
-autom4te.cache
+autom4te.cache/
 /autoscan.log
 /autoscan-*.log
 /aclocal.m4
@@ -441,3 +441,4 @@ healthchecksdb
 
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
 MigrationBackup/
+
