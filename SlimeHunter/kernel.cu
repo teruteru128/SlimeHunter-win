@@ -1,12 +1,17 @@
 
-#include "cuda_runtime.h"
-#include "device_launch_parameters.h"
+#include <cuda_runtime.h>
+#include <device_launch_parameters.h>
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <inttypes.h>
+#include <windows.h>
+#include <time.h>
+#include <random>
+#include "SlimeHunter.cuh"
 
 cudaError_t addWithCuda(int *c, const int *a, const int *b, unsigned int size);
+cudaError_t searchWithCuda(int64_t initialSeed, unsigned int size);
 
 __global__ void addKernel(int *c, const int *a, const int *b)
 {
@@ -53,7 +58,17 @@ int main(int argc, char* argv[])
 		fprintf(stderr, "cudaDeviceReset failed!");
 		return 1;
 	}
-
+	SYSTEMTIME sys;
+	GetSystemTime(&sys);
+	std::random_device rnd;
+	int64_t initialSeed = (int64_t)rnd() << 32 + rnd();
+	clock_t start = clock();
+	printf("%" PRId64"\n", initialSeed);
+	for(int i = 0; i < 1; i++){
+		searchSlimeKernel <<<1,1>>>(initialSeed++);
+	}
+	clock_t finish = clock();
+	printf("%fs\n", (double)(finish - start)/ CLOCKS_PER_SEC);
 	return 0;
 }
 
@@ -134,5 +149,9 @@ Error:
 	cudaFree(dev_a);
 	cudaFree(dev_b);
 
+	return cudaStatus;
+}
+cudaError_t searchWithCuda(int64_t initialSeed, unsigned int size) {
+	cudaError_t cudaStatus = cudaSuccess;
 	return cudaStatus;
 }

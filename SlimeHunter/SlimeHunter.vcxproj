@@ -87,15 +87,18 @@
   <ItemGroup>
     <ClInclude Include="internal_random.h" />
     <ClInclude Include="kernel.cuh" />
-    <ClInclude Include="mcSlimeChunkOracle.h" />
-    <ClInclude Include="random.h" />
+    <ClInclude Include="mcSlimeChunkOracle.cuh" />
+    <ClInclude Include="jrandom.cuh" />
+    <ClInclude Include="SlimeHunter.cuh" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mcSlimeChunkOracle.c" />
-    <ClCompile Include="random.c" />
-    <ClCompile Include="SlimeHunter.c">
+    <ClCompile Include="mcSlimeChunkOracle.cu" />
+    <CudaCompile Include="jrandom.cu">
+      <FileType>Document</FileType>
+    </CudaCompile>
+    <CudaCompile Include="SlimeHunter.cu">
       <FileType>CppCode</FileType>
-    </ClCompile>
+    </CudaCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
