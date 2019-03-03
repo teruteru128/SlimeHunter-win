@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "mcSlimeChunkOracle.h"
 
+
 void setMCSeed(SlimeChunkSeed* t, int64_t seed){
     t->seed = seed;
 }
