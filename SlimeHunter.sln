@@ -7,10 +7,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SlimeHunter", "SlimeHunter\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "poop", "poop\poop.vcxproj", "{289DF6F1-823F-4263-BFEE-BA0B25A4F795}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SlimeHunterMT", "SlimeHunterMT\SlimeHunterMT.vcxproj", "{F75FF2B8-2B89-4FAA-A76C-04CCCBF882D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{37DE2DD3-6804-45C0-9075-B4FD357BD8B1}.Debug|x64.ActiveCfg = Debug|x64
@@ -21,6 +25,14 @@ Global
 		{289DF6F1-823F-4263-BFEE-BA0B25A4F795}.Debug|x64.Build.0 = Debug|x64
 		{289DF6F1-823F-4263-BFEE-BA0B25A4F795}.Release|x64.ActiveCfg = Release|x64
 		{289DF6F1-823F-4263-BFEE-BA0B25A4F795}.Release|x64.Build.0 = Release|x64
+		{F75FF2B8-2B89-4FAA-A76C-04CCCBF882D0}.Debug|x64.ActiveCfg = Debug|x64
+		{F75FF2B8-2B89-4FAA-A76C-04CCCBF882D0}.Debug|x64.Build.0 = Debug|x64
+		{F75FF2B8-2B89-4FAA-A76C-04CCCBF882D0}.Debug|x86.ActiveCfg = Debug|Win32
+		{F75FF2B8-2B89-4FAA-A76C-04CCCBF882D0}.Debug|x86.Build.0 = Debug|Win32
+		{F75FF2B8-2B89-4FAA-A76C-04CCCBF882D0}.Release|x64.ActiveCfg = Release|x64
+		{F75FF2B8-2B89-4FAA-A76C-04CCCBF882D0}.Release|x64.Build.0 = Release|x64
+		{F75FF2B8-2B89-4FAA-A76C-04CCCBF882D0}.Release|x86.ActiveCfg = Release|Win32
+		{F75FF2B8-2B89-4FAA-A76C-04CCCBF882D0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
