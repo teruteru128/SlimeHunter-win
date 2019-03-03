@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 {
     std::cout << "Hello World!\n"; 
 	std::random_device rnd;
-	slimeSearch((int64_t)rnd()<<32 + rnd());
+	slimeSearch(((int64_t)rnd())<<32 + rnd());
 	return EXIT_SUCCESS;
 }
 
