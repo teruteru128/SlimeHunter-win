@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- まるでわけがわからんぞ！ -->
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -12,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{37DE2DD3-6804-45C0-9075-B4FD357BD8B1}</ProjectGuid>
-    <RootNamespace>SlimeHunter</RootNamespace>
+    <ProjectGuid>{289DF6F1-823F-4263-BFEE-BA0B25A4F795}</ProjectGuid>
+    <RootNamespace>poop</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -43,7 +42,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IgnoreImportLibrary>true</IgnoreImportLibrary>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -80,25 +78,6 @@
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="add.cuh" />
-    <ClInclude Include="commonMcSlimeChunkOracle.h" />
-    <ClInclude Include="common_jrandom.h" />
-    <ClInclude Include="internal_random.h" />
-    <ClInclude Include="jrandom.h" />
-    <ClInclude Include="kernel.cuh" />
-    <ClInclude Include="mcSlimeChunkOracle.cuh" />
-    <ClInclude Include="jrandom.cuh" />
-    <ClInclude Include="mcSlimeChunkOracle.h" />
-    <ClInclude Include="randomKernel.cuh" />
-    <ClInclude Include="SlimeHunter.cuh" />
-    <ClCompile Include="jrandom.c" />
-    <ClCompile Include="mcSlimeChunkOracle.c" />
-    <ClCompile Include="SlimeHunter.c" />
-    <CudaCompile Include="add.cu" />
-    <CudaCompile Include="jrandom.cu" />
-    <CudaCompile Include="mcSlimeChunkOracle.cu" />
-    <CudaCompile Include="randomKernel.cu" />
-    <CudaCompile Include="SlimeHunter.cu" />
     <CudaCompile Include="kernel.cu" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

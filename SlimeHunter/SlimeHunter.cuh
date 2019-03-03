@@ -1,4 +1,4 @@
-
+#pragma once
 #ifndef SLIME_HUNTER_H
 #define SLIME_HUNTER_H 1
 
@@ -11,4 +11,5 @@ typedef struct SearchResult_t {
 	int16_t chunkZ = 0;
 } SearchResult;
 __global__ void searchSlimeKernel(int64_t);
+// いあ！いあ！
 #endif

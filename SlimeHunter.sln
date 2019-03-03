@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SlimeHunter", "SlimeHunter\SlimeHunter.vcxproj", "{37DE2DD3-6804-45C0-9075-B4FD357BD8B1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "poop", "poop\poop.vcxproj", "{289DF6F1-823F-4263-BFEE-BA0B25A4F795}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -15,6 +17,10 @@ Global
 		{37DE2DD3-6804-45C0-9075-B4FD357BD8B1}.Debug|x64.Build.0 = Debug|x64
 		{37DE2DD3-6804-45C0-9075-B4FD357BD8B1}.Release|x64.ActiveCfg = Release|x64
 		{37DE2DD3-6804-45C0-9075-B4FD357BD8B1}.Release|x64.Build.0 = Release|x64
+		{289DF6F1-823F-4263-BFEE-BA0B25A4F795}.Debug|x64.ActiveCfg = Debug|x64
+		{289DF6F1-823F-4263-BFEE-BA0B25A4F795}.Debug|x64.Build.0 = Debug|x64
+		{289DF6F1-823F-4263-BFEE-BA0B25A4F795}.Release|x64.ActiveCfg = Release|x64
+		{289DF6F1-823F-4263-BFEE-BA0B25A4F795}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
