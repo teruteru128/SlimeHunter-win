@@ -1,7 +1,6 @@
 
 #include <cuda_runtime.h>
 #include <device_launch_parameters.h>
-#include "internal_random.h"
 #include "jrandom.cuh"
 
 __device__ static int64_t initialScrambleKernel(uint64_t seed) {

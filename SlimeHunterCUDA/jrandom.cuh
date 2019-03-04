@@ -4,7 +4,7 @@
 
 #include <cuda_runtime.h>
 #include <device_launch_parameters.h>
-#include "common_jrandom.h"
+#include "internal_jrandom.h"
 
 	__device__ Random* setSeedKernel(Random*, int64_t);
 	__device__ int32_t nextKernel(Random*, int32_t);

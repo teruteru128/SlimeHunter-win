@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
 		in[i] = ((int64_t)mt()) <<32 + mt();
 	}
 
-	//cudaStatus = randomWithCuda(out, in, random, n);
+	cudaStatus = randomWithCuda(out, in, random, n);
 	if (cudaStatus != cudaSuccess) {
 		fprintf(stderr, "randomWithCuda failed!");
 		return 1;

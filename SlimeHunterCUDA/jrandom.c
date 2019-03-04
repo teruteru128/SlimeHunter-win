@@ -1,5 +1,5 @@
 
-#include "internal_random.h"
+#include "internal_jrandom.h"
 #include "jrandom.h"
 
 static int64_t initialScramble(uint64_t seed) {
