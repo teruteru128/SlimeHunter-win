@@ -4,20 +4,19 @@
 #include "pch.h"
 #include <iostream>
 #include <cstdint>
+#include <cinttypes>
 #include <random>
+#include "random.h"
 
-#ifdef __cplusplus
-extern "C"{
-#endif
-int slimeSearch(int64_t);
-#ifdef __cplusplus
+extern "C" {
+	int slimeSearch(int64_t);
 }
-#endif
 int main(int argc, char* argv[])
 {
-    std::cout << "Hello World!\n"; 
 	std::random_device rnd;
-	slimeSearch(((int64_t)rnd())<<32 + rnd());
+	int64_t initialSeed = ((int64_t)rnd() << 32) + rnd();
+	slimeSearch(initialSeed);
+	system("PAUSE");
 	return EXIT_SUCCESS;
 }
 

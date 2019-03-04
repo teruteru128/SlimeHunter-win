@@ -8,30 +8,35 @@
 
 int slimeSearch(int64_t initialSeed) {
 	SlimeChunkSeed seed;
-	Random random;
-	setSeed(&random, 0);
-	printf("%u\n", next(&random, 32));
-	printf("%u\n", nextInt(&random));
-	printf("%u\n", nextIntWithRange(&random, 10));
-	printf("%"PRId64"\n", nextLong(&random));
-
 	int64_t rndSeed = initialSeed;
 	int64_t currentSeed = 0;
-
-	printf("Initial Seed : %"PRId64"\n", rndSeed);
+	time_t timer;
+	struct tm date;
+	timer = time(NULL);
+	errno_t err = localtime_s(&date, &timer);
+	if (err != 0) {
+		return EXIT_FAILURE;
+	}
+	char buf[BUFSIZ];
+	size_t len = strftime(buf, BUFSIZ, "%FT%T", &date);
+	if (len == 0) {
+		return EXIT_FAILURE;
+	}
+	printf("Initial Seed : %"PRId64" (%s)\n", rndSeed, buf);
 
 	int64_t chunkX, xMin = -313, xMax = 312, x;
 	int64_t chunkZ, zMin = -313, zMax = 312, z;
 	int64_t countRangeX = 4;
 	int64_t countRangeZ = 4;
-	int64_t minSlimeChunks = 14;
+	int64_t minSlimeChunks = 15;
 	uint64_t i = 0;
 	int32_t slimeChunkCount = 0;
 	int32_t chunkCount = 0;
 	long exX = 0;
 	long exZ = 0;
 	clock_t start = clock();
-	uint64_t searchSeeds = 50000ULL;
+	uint64_t searchSeeds = 10000000ULL;
+	int64_t max = 0;
 	for (i = 0; i < searchSeeds; i++) {
 		currentSeed = rndSeed++;
 		setMCSeed(&seed, currentSeed);
@@ -46,30 +51,31 @@ int slimeSearch(int64_t initialSeed) {
 								chunkCount = 4;
 								for (exX = 0; exX < countRangeX; exX++) {
 									for (exZ = 0; exZ < countRangeZ; exZ++) {
-										if ((x + exX) % 2 != 0 && (z + exZ) % 2 != 0) {
+										if ((x + exX) % 2 != 0 || (z + exZ) % 2 != 0) {
 											chunkCount++;
 											if (isSlimeChunkXZ(&seed, chunkX + exX + x, chunkZ + exZ + z)) {
 												slimeChunkCount++;
 											}
 										}
 									}
-									if (slimeChunkCount >= minSlimeChunks) {
-										printf("'%"PRId64",%"PRId64",%"PRId64",%"PRId32",%"PRId32"\n", currentSeed, chunkX * 16, chunkZ * 16, slimeChunkCount, chunkCount);
-									}
+								}
+								max = slimeChunkCount > max ? slimeChunkCount : max;
+								if (slimeChunkCount >= minSlimeChunks) {
+									printf("'%"PRId64",%"PRId64",%"PRId64",%"PRId32",%"PRId32"\n", currentSeed, (chunkX + x) * 16, (chunkZ + z) * 16, slimeChunkCount, chunkCount);
 								}
 							}
 						}
 					}
 				}
 				else {
-					chunkZ += 2;
+					chunkX += 2;
 				}
 			}
 		}
 	}
 	clock_t finish = clock();
 	double seconds = ((double)(finish - start) / CLOCKS_PER_SEC);
-	printf("%"PRId64"seeds, %.2lfseeds/s, %.2lfs\n", searchSeeds, searchSeeds / seconds, seconds);
+	printf("%"PRId64"seeds, %.2lfseeds/s, %.2lfs and max is %"PRId64"/%"PRId64"\n", searchSeeds, searchSeeds / seconds, seconds, max, countRangeX * countRangeZ);
 	return EXIT_SUCCESS;
 }
 
