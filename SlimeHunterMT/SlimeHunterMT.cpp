@@ -6,16 +6,56 @@
 #include <cstdint>
 #include <cinttypes>
 #include <random>
-#include "random.h"
+#include <thread>
+#ifdef __linux
+#include <unistd.h>
+#elif __MINGW32__
+#include <windows.h>
+#include <winbase.h>
+#elif defined(_WIN32) || defined(_WIN64)
+#include <Windows.h>
+#endif
+#include "jrandom.h"
+#include "slimeHunter.h"
+#include <crtdbg.h>
 
 extern "C" {
-	int slimeSearch(int64_t);
+	int slimeSearch(int64_t, const SearchConfig*);
 }
+
 int main(int argc, char* argv[])
 {
+#ifdef _DEBUG
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	printf("debug mode\n");
+#endif
 	std::random_device rnd;
-	int64_t initialSeed = ((int64_t)rnd() << 32) + rnd();
-	slimeSearch(initialSeed);
+	int64_t initialSeed;
+	SearchConfig config = { {{-313,-313},{312,312}},{4,4}, 13, 27600ULL ,0 ,16ULL};
+	time_t timer;
+	struct tm date;
+	timer = time(NULL);
+	errno_t err = localtime_s(&date, &timer);
+	if (err != 0) {
+		return EXIT_FAILURE;
+	}
+	char buf[BUFSIZ];
+	size_t len = strftime(buf, BUFSIZ, "%FT%T", &date);
+	if (len == 0) {
+		return EXIT_FAILURE;
+	}
+	printf("start : %s\n", buf);
+	uint64_t sectionNumber = config.sectionNumber = 16ULL;
+#ifdef _DEBUG
+	sectionNumber = config.sectionNumber = 4;
+	config.searchSeeds /= 100;
+#endif
+	for (uint64_t i = 0; i < sectionNumber; i++) {
+		config.currentSection = i;
+		initialSeed = ((int64_t)rnd() << 32) + rnd();
+		slimeSearch(initialSeed, &config);
+	}
+
 	system("PAUSE");
 	return EXIT_SUCCESS;
 }

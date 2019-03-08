@@ -154,7 +154,9 @@
     <ClInclude Include="internal_random.h" />
     <ClInclude Include="mcSlimeChunkOracle.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="random.h" />
+    <ClInclude Include="jrandom.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="slimeHunter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mcSlimeChunkOracle.c">
@@ -167,7 +169,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="random.c">
+    <ClCompile Include="jrandom.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>

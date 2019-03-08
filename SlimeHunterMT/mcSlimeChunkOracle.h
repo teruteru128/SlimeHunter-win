@@ -6,18 +6,19 @@
 extern "C" {
 #endif
 #include "internal_random.h"
-#include "random.h"
+#include "jrandom.h"
 #include <stdbool.h>
-typedef struct SlimeChunkSeed_t{
-  int64_t seed;
-  Random rnd;
-} SlimeChunkSeed;
+	typedef struct SlimeChunkSeed_t {
+		int64_t seed;
+		Random rnd;
+	} SlimeChunkSeed;
 
-int64_t getMCSeed(SlimeChunkSeed*, int32_t , int32_t);
-void setMCSeed(SlimeChunkSeed*, int64_t);
+	void setMCSeed(SlimeChunkSeed*, int64_t);
+	int64_t getMCSeed(SlimeChunkSeed*);
+	int64_t getMCChunkSeed(SlimeChunkSeed*, int32_t, int32_t);
 
-bool isSlimeChunkXZ(SlimeChunkSeed *, int64_t, int64_t);
-bool isSlimeChunk(Random *);
+	bool isSlimeChunkXZ(SlimeChunkSeed *, int64_t, int64_t);
+	static bool isSlimeChunk(Random *);
 
 #ifdef __cplusplus
 }
