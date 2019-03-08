@@ -55,8 +55,9 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 	int i;
+	
 	for (i = 0; i < n; i++) {
-		printf("%lld\n", out[i]);
+		printf("%5s,%" PRIu64",%" PRIu64"\n", out[i] == in[i] ? "true": "false",out[i], in[i]);
 	}
 	// cudaDeviceReset must be called before exiting in order for profiling and
 	// tracing tools such as Nsight and Visual Profiler to show complete traces.

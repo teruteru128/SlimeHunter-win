@@ -10,8 +10,8 @@ __global__ void genRandomKernel(int64_t *out, const int64_t *in, Random *random,
 	if (i >= n) {
 		return;
 	}
-	//out[i] = nextLongKernel(setSeedKernel(&random[i], in[i]));
-	out[i] = in[i];
+	out[i] = nextLongKernel(setSeedKernel(&random[i], in[i]));
+	//out[i] = in[i];
 }
 
 cudaError_t randomWithCuda(int64_t * out, int64_t *in, Random* random, size_t n) {
