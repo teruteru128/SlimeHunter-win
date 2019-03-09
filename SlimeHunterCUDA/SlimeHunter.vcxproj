@@ -29,7 +29,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -79,7 +79,8 @@
     </Link>
     <CudaCompile>
       <TargetMachinePlatform>64</TargetMachinePlatform>
-      <AdditionalCompilerOptions>-dc</AdditionalCompilerOptions>
+      <AdditionalCompilerOptions>
+      </AdditionalCompilerOptions>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -93,9 +94,6 @@
     <ClInclude Include="mcSlimeChunkOracle.h" />
     <ClInclude Include="randomKernel.cuh" />
     <ClInclude Include="SlimeHunter.cuh" />
-    <ClCompile Include="jrandom.c" />
-    <ClCompile Include="mcSlimeChunkOracle.c" />
-    <ClCompile Include="SlimeHunter.c" />
     <CudaCompile Include="add.cu" />
     <CudaCompile Include="jrandom.cu" />
     <CudaCompile Include="mcSlimeChunkOracle.cu" />
