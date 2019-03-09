@@ -26,6 +26,16 @@ int slimeSearch(int64_t initialSeed, const SearchConfig* config) {
 	}
 
 	printf("Initial Seed : %" PRId64" (%s)\n", rndSeed, buf);
+	setMCSeed(&seed, -647727624022361904LL);
+	{
+		int sum = 0;
+		for (int z = 50; z < 54; z++) {
+			for (int x = 35; x < 39; x++) {
+				sum += isSlimeChunkXZ(&seed, x, z);
+			}
+		}
+		printf("%d\n", sum);
+	}
 #endif
 
 	const int64_t  xMin = config->searchRange.northWest.x, xMax = config->searchRange.southEast.x;
@@ -34,7 +44,7 @@ int slimeSearch(int64_t initialSeed, const SearchConfig* config) {
 	const int64_t countRangeZ = config->searchScope.height;
 	const int64_t minSlimeChunks = config->reqMinSlimeChunks;
 #ifdef _DEBUG
-	const uint64_t searchSeeds = config->searchSeeds / 100;
+	const uint64_t searchSeeds = config->searchSeeds;
 #else
 	const uint64_t searchSeeds = config->searchSeeds;
 #endif
@@ -74,7 +84,7 @@ int slimeSearch(int64_t initialSeed, const SearchConfig* config) {
 #ifdef _DEBUG
 												chunkCount++;
 #endif
-												slimeChunkCount ++;
+												slimeChunkCount++;
 											}
 										}
 									}
