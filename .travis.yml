@@ -1,1 +1,4 @@
 language: cpp
+branches:
+  except:
+    - future/windows
