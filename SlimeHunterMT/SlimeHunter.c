@@ -40,22 +40,18 @@ int slimeSearch(int64_t initialSeed, const SearchConfig* config) {
 
 	const int64_t  xMin = config->searchRange.northWest.x, xMax = config->searchRange.southEast.x;
 	const int64_t  zMin = config->searchRange.northWest.z, zMax = config->searchRange.southEast.z;
-	const int64_t countRangeX = config->searchScope.width;
-	const int64_t countRangeZ = config->searchScope.height;
+	const int64_t countRangeX = config->cursorSize.width;
+	const int64_t countRangeZ = config->cursorSize.height;
 	const int64_t minSlimeChunks = config->reqMinSlimeChunks;
-#ifdef _DEBUG
 	const uint64_t searchSeeds = config->searchSeeds;
-#else
-	const uint64_t searchSeeds = config->searchSeeds;
-#endif
-	int64_t chunkX, x;
-	int64_t chunkZ, z;
+	int64_t chunkX, x=0;
+	int64_t chunkZ, z=0;
 	uint64_t i = 0;
-	int32_t slimeChunkCount = 0;
+	int64_t slimeChunkCount = 0;
 #ifdef _DEBUG
-	int32_t chunkCount = 0;
+	int64_t chunkCount = 0;
 #else
-	int32_t chunkCount = (int32_t)(countRangeX * countRangeZ);
+	int64_t chunkCount = (int32_t)(countRangeX * countRangeZ);
 #endif
 	int64_t exX = 0;
 	int64_t exZ = 0;
@@ -64,41 +60,48 @@ int slimeSearch(int64_t initialSeed, const SearchConfig* config) {
 #ifdef _DEBUG
 	printf("searchSeeds : %" PRIu64"\n", searchSeeds);
 #endif
+	int64_t xz = 0;
 	for (i = 0; i < searchSeeds; i++) {
 		setMCSeed(&seed, rndSeed++);
 
 		for (chunkZ = zMin; chunkZ <= zMax; chunkZ += 2) {
 			for (chunkX = xMin; chunkX <= xMax; chunkX += 2) {
-				if (isSlimeChunkXZ(&seed, chunkX + 2, chunkZ) && isSlimeChunkXZ(&seed, chunkX + 2, chunkZ + 2)) {
-					if (isSlimeChunkXZ(&seed, chunkX, chunkZ) && isSlimeChunkXZ(&seed, chunkX, chunkZ + 2)) {
-						for (z = -1; z < 1; z++) {
-							for (x = -1; x < 1; x++) {
-								slimeChunkCount = 4;
+				if (isSlimeChunkXZ(&seed, chunkX + 4, chunkZ) && isSlimeChunkXZ(&seed, chunkX + 4, chunkZ + 2) && isSlimeChunkXZ(&seed, chunkX + 4, chunkZ + 4)) {
+					if (isSlimeChunkXZ(&seed, chunkX + 2, chunkZ) && isSlimeChunkXZ(&seed, chunkX + 2, chunkZ + 2) && isSlimeChunkXZ(&seed, chunkX + 2, chunkZ + 4)) {
+						if (isSlimeChunkXZ(&seed, chunkX, chunkZ) && isSlimeChunkXZ(&seed, chunkX, chunkZ + 2) && isSlimeChunkXZ(&seed, chunkX, chunkZ + 4)) {
+							for (z = -1; z < 1; z++) {
+								for (x = -1; x < 1; x++) {
+									xz = x + z;
+									slimeChunkCount = (((x + 3)*(x + 4)) >> 1) + 3;
 #ifdef _DEBUG
-								chunkCount = 4;
+									chunkCount = ((xz * (xz - 3)) / 2) + 4;
 #endif
-								for (exX = 0; exX < countRangeX; exX++) {
-									for (exZ = 0; exZ < countRangeZ; exZ++) {
-										if ((x + exX) % 2 != 0 || (z + exZ) % 2 != 0) {
-											if (isSlimeChunkXZ(&seed, chunkX + exX + x, chunkZ + exZ + z)) {
+									for (exX = 0; exX < countRangeX; exX++) {
+										for (exZ = 0; exZ < countRangeZ; exZ++) {
+											if ((x + exX) % 2 != 0 || (z + exZ) % 2 != 0) {
+												if (isSlimeChunkXZ(&seed, chunkX + exX + x, chunkZ + exZ + z)) {
 #ifdef _DEBUG
-												chunkCount++;
+													chunkCount++;
 #endif
-												slimeChunkCount++;
+													slimeChunkCount++;
+												}
 											}
 										}
 									}
-								}
-								maxSlimeChunks = max(maxSlimeChunks, slimeChunkCount);
-								if (slimeChunkCount >= minSlimeChunks) {
-									printf("won!,'%"PRId64",%"PRId64",%"PRId64",%"PRId32",%"PRId32"\n", getMCSeed(&seed), (chunkX + x) * 16, (chunkZ + z) * 16, slimeChunkCount, chunkCount);
+									maxSlimeChunks = max(maxSlimeChunks, slimeChunkCount);
+									if (slimeChunkCount >= minSlimeChunks) {
+										printf("won!,'%"PRId64",%"PRId64",%"PRId64",%"PRId64",%"PRId64"\n", getMCSeed(&seed), (chunkX + x) * 16, (chunkZ + z) * 16, slimeChunkCount, chunkCount);
+									}
 								}
 							}
 						}
 					}
+					else {
+						chunkX += 1;
+					}
 				}
 				else {
-					chunkX += 2;
+					chunkX += 3;
 				}
 			}
 		}
