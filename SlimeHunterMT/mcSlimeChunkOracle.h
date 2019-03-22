@@ -18,7 +18,6 @@ extern "C" {
 	int64_t getMCChunkSeed(SlimeChunkSeed*, int32_t, int32_t);
 
 	bool isSlimeChunkXZ(SlimeChunkSeed *, int64_t, int64_t);
-	static bool isSlimeChunk(Random *);
 
 #ifdef __cplusplus
 }

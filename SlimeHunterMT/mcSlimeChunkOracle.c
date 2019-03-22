@@ -15,7 +15,7 @@ static int64_t getMCChunkSeed(SlimeChunkSeed* seed, int32_t chunkX, int32_t chun
 	return seed->seed + chunkX * chunkX * 0x4c1906 + chunkX * 0x5ac0db + chunkZ * chunkZ * 0x4307a7LL + chunkZ * 0x5f24f ^ 0x3ad8025f;
 }
 
-bool isSlimeChunk(Random* rnd){
+static bool isSlimeChunk(Random* rnd){
 	return nextIntWithRange(rnd, 10) == 0;
 }
 
