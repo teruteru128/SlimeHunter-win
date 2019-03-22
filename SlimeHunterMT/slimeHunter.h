@@ -10,7 +10,7 @@ extern "C" {
 		int64_t x;
 		int64_t z;
 	} Point;
-	typedef struct rectangle_t {
+	typedef struct rectangleArea_t {
 		Point northWest;
 		Point southEast;
 	} RectangleArea;
@@ -22,7 +22,7 @@ extern "C" {
 	} RectangleSize;
 	typedef struct searchConfig_t {
 		RectangleArea searchRange;
-		RectangleSize searchScope;
+		RectangleSize cursorSize;
 		uint64_t reqMinSlimeChunks;
 		uint64_t searchSeeds;
 		uint64_t currentSection;
