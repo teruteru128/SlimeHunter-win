@@ -31,7 +31,8 @@ int main(int argc, char* argv[])
 #endif
 	std::random_device rnd;
 	int64_t initialSeed;
-	SearchConfig config = { {{-313,-313},{312,312}},{4,4}, 13, 27600ULL ,0 ,16ULL};
+	// 4300000ULL
+	SearchConfig config = { {{-313,-313},{312,312}},{5,5}, 21, 0x400000ULL , 0, 0x100ULL};
 	time_t timer;
 	struct tm date;
 	timer = time(NULL);
@@ -45,7 +46,7 @@ int main(int argc, char* argv[])
 		return EXIT_FAILURE;
 	}
 	printf("start : %s\n", buf);
-	uint64_t sectionNumber = config.sectionNumber = 16ULL;
+	uint64_t sectionNumber = config.sectionNumber;
 #ifdef _DEBUG
 	sectionNumber = config.sectionNumber = 4;
 	config.searchSeeds /= 100;
