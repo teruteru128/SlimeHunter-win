@@ -18,21 +18,26 @@
 #include "jrandom.h"
 #include "slimeHunter.h"
 #include <crtdbg.h>
+#include <ctime>
 
 extern "C" {
-	int slimeSearch(int64_t, const SearchConfig*);
+	int slimeSearch(int64_t, const SearchConfig*, FILE *);
 }
-
+#define FILENAMELEN 32
 int main(int argc, char* argv[])
 {
 #ifdef _DEBUG
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	printf("debug mode\n");
 #endif
-	std::random_device rnd;
-	int64_t initialSeed;
+
 	// 4300000ULL
-	SearchConfig config = { {{-313,-313},{312,312}},{5,5}, 21, 0x400000ULL , 0, 0x100ULL};
+	SearchConfig config = { {{-313,-313},{312,312}},{5,5}, 12, 0x4000ULL , 0, 0x8ULL };
+	std::random_device rnd;
+	int64_t initialSeed = 0;
+	uint64_t sectionNumber = 0;
+	sectionNumber = config.sectionNumber;
+	/*************************************************************************************************/
 	time_t timer;
 	struct tm date;
 	timer = time(NULL);
@@ -46,7 +51,15 @@ int main(int argc, char* argv[])
 		return EXIT_FAILURE;
 	}
 	printf("start : %s\n", buf);
-	uint64_t sectionNumber = config.sectionNumber;
+	char filename[FILENAMELEN];
+	snprintf(filename , FILENAMELEN, "out-%04d-%02d-%02d-%02d-%02d-%02d.csv", date.tm_year + 1900, date.tm_mon + 1, date.tm_mday, date.tm_hour, date.tm_min, date.tm_sec);
+	FILE *outfile = NULL;
+	err = fopen_s(&outfile, filename, "a");
+	if (err != 0) {
+		perror("出力ファイルを作成または開けませんでした。(fopen)");
+		goto error;
+	}
+	/*************************************************************************************************/
 #ifdef _DEBUG
 	sectionNumber = config.sectionNumber = 4;
 	config.searchSeeds /= 100;
@@ -54,9 +67,10 @@ int main(int argc, char* argv[])
 	for (uint64_t i = 0; i < sectionNumber; i++) {
 		config.currentSection = i;
 		initialSeed = ((int64_t)rnd() << 32) + rnd();
-		slimeSearch(initialSeed, &config);
-	}
-
+		slimeSearch(initialSeed, &config, outfile);
+}
+error:
+	fclose(outfile);
 	system("PAUSE");
 	return EXIT_SUCCESS;
 }

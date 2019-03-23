@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <inttypes.h>
 #include <time.h>
 #include <math.h>
@@ -8,7 +9,7 @@
 #include "mcSlimeChunkOracle.h"
 #include "slimeHunter.h"
 
-int slimeSearch(int64_t initialSeed, const SearchConfig* config) {
+int slimeSearch(int64_t initialSeed, const SearchConfig* config, FILE *outfile) {
 	SlimeChunkSeed seed;
 	int64_t rndSeed = initialSeed;
 #ifdef _DEBUG
@@ -37,15 +38,15 @@ int slimeSearch(int64_t initialSeed, const SearchConfig* config) {
 		printf("%d\n", sum);
 	}
 #endif
-
+	char buf[BUFSIZ];
 	const int64_t  xMin = config->searchRange.northWest.x, xMax = config->searchRange.southEast.x;
 	const int64_t  zMin = config->searchRange.northWest.z, zMax = config->searchRange.southEast.z;
 	const int64_t countRangeX = config->cursorSize.width;
 	const int64_t countRangeZ = config->cursorSize.height;
 	const int64_t minSlimeChunks = config->reqMinSlimeChunks;
 	const uint64_t searchSeeds = config->searchSeeds;
-	int64_t chunkX, x=0;
-	int64_t chunkZ, z=0;
+	int64_t chunkX, x = 0;
+	int64_t chunkZ, z = 0;
 	uint64_t i = 0;
 	int64_t slimeChunkCount = 0;
 #ifdef _DEBUG
@@ -90,7 +91,11 @@ int slimeSearch(int64_t initialSeed, const SearchConfig* config) {
 									}
 									maxSlimeChunks = max(maxSlimeChunks, slimeChunkCount);
 									if (slimeChunkCount >= minSlimeChunks) {
-										printf("won!,'%"PRId64",%"PRId64",%"PRId64",%"PRId64",%"PRId64"\n", getMCSeed(&seed), (chunkX + x) * 16, (chunkZ + z) * 16, slimeChunkCount, chunkCount);
+										snprintf(buf, BUFSIZ, "'%" PRId64",%" PRId64",%" PRId64",%" PRId64",%" PRId64, getMCSeed(&seed), (chunkX + x) * 16, (chunkZ + z) * 16, slimeChunkCount, chunkCount);
+										printf("won!,%s\n", buf);
+										fprintf(outfile, "%s\n", buf);
+										fflush(outfile);
+										memset(buf, 0, BUFSIZ);
 									}
 								}
 							}
