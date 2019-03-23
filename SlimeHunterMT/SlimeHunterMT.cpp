@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
 #endif
 
 	// 4300000ULL
-	SearchConfig config = { {{-313,-313},{312,312}},{5,5}, 12, 0x4000ULL , 0, 0x8ULL };
+	SearchConfig config = { {{-313, -313}, {312, 312}}, {5, 5}, 11, 0x4000ULL, 0, 0x8ULL };
 	std::random_device rnd;
 	int64_t initialSeed = 0;
 	uint64_t sectionNumber = 0;
@@ -45,14 +45,14 @@ int main(int argc, char* argv[])
 	if (err != 0) {
 		return EXIT_FAILURE;
 	}
-	char buf[BUFSIZ];
-	size_t len = strftime(buf, BUFSIZ, "%FT%T", &date);
+	char datetimebuf[BUFSIZ];
+	size_t len = strftime(datetimebuf, BUFSIZ, "%FT%T", &date);
 	if (len == 0) {
 		return EXIT_FAILURE;
 	}
-	printf("start : %s\n", buf);
+	printf("start : %s\n", datetimebuf);
 	char filename[FILENAMELEN];
-	snprintf(filename , FILENAMELEN, "out-%04d-%02d-%02d-%02d-%02d-%02d.csv", date.tm_year + 1900, date.tm_mon + 1, date.tm_mday, date.tm_hour, date.tm_min, date.tm_sec);
+	snprintf(filename, FILENAMELEN, "out-%04d-%02d-%02d-%02d-%02d-%02d.csv", date.tm_year + 1900, date.tm_mon + 1, date.tm_mday, date.tm_hour, date.tm_min, date.tm_sec);
 	FILE *outfile = NULL;
 	err = fopen_s(&outfile, filename, "a");
 	if (err != 0) {
@@ -68,7 +68,12 @@ int main(int argc, char* argv[])
 		config.currentSection = i;
 		initialSeed = ((int64_t)rnd() << 32) + rnd();
 		slimeSearch(initialSeed, &config, outfile);
-}
+	}
+	char buf[BUFSIZ];
+	timer = time(NULL);
+	err = localtime_s(&date, &timer);
+	snprintf(buf, BUFSIZ, "finished,%04d/%02d/%02d %02d:%02d:%02d", date.tm_year + 1900, date.tm_mon + 1, date.tm_mday, date.tm_hour, date.tm_min, date.tm_sec);
+	fprintf(outfile, "%s\n", buf);
 error:
 	fclose(outfile);
 	system("PAUSE");

@@ -91,8 +91,8 @@ int slimeSearch(int64_t initialSeed, const SearchConfig* config, FILE *outfile) 
 									}
 									maxSlimeChunks = max(maxSlimeChunks, slimeChunkCount);
 									if (slimeChunkCount >= minSlimeChunks) {
-										snprintf(buf, BUFSIZ, "'%" PRId64",%" PRId64",%" PRId64",%" PRId64",%" PRId64, getMCSeed(&seed), (chunkX + x) * 16, (chunkZ + z) * 16, slimeChunkCount, chunkCount);
-										printf("won!,%s\n", buf);
+										snprintf(buf, BUFSIZ, "won!,'%" PRId64",%" PRId64",%" PRId64",%" PRId64",%" PRId64, getMCSeed(&seed), (chunkX + x) * 16, (chunkZ + z) * 16, slimeChunkCount, chunkCount);
+										printf("%s\n", buf);
 										fprintf(outfile, "%s\n", buf);
 										fflush(outfile);
 										memset(buf, 0, BUFSIZ);
