@@ -1,0 +1,12 @@
+platform:
+  - Win64
+environment:
+  matrix:
+    - language: cpp
+      image: Visual Studio 2017
+build_script:
+  - msbuild SlimeHunter.sln /p:Configuration=Debug /p:Platform="x64" -target:SlimeHunterCUDA:Rebuild
+  - msbuild SlimeHunter.sln /p:Configuration=Debug /p:Platform="x64" -target:SlimeHunterMT:Rebuild
+branches:
+  only:
+    - future/windows

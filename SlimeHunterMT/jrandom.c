@@ -1,6 +1,7 @@
 
+#include "pch.h"
 #include "internal_random.h"
-#include "random.h"
+#include "jrandom.h"
 
 static int64_t initialScramble(uint64_t seed){
     return (seed ^ MULTIPLIER) & MASK;
@@ -11,7 +12,7 @@ Random* setSeed(Random *rnd, int64_t seed){
     return rnd;
 }
 
-int32_t next(Random* rnd, int32_t bits){
+static int32_t next(Random* rnd, int32_t bits){
     uint64_t oldseed, nextseed;
     uint64_t seed = rnd->seed;
     oldseed = seed;
@@ -21,7 +22,7 @@ int32_t next(Random* rnd, int32_t bits){
 }
 
 int64_t nextLong(Random* rnd){
-    return ((int64_t)(next(rnd, 32)) << 32) + next(rnd, 32);
+    return ((int64_t)next(rnd, 32) << 32) + next(rnd, 32);
 }
 
 int32_t nextInt(Random* rnd){
