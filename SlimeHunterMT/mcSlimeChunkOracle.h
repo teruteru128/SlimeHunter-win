@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 #include "internal_random.h"
-#include "jrandom.h"
+#include "jrandom.hpp"
 #include <stdbool.h>
 	typedef struct SlimeChunkSeed_t {
 		int64_t seed;

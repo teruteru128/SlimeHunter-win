@@ -24,10 +24,10 @@
     <ClInclude Include="mcSlimeChunkOracle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="jrandom.h">
+    <ClInclude Include="jrandom.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="slimeHunter.h">
+    <ClInclude Include="slimeHunter.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">

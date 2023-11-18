@@ -13,17 +13,41 @@
 #elif defined(_WIN32) || defined(_WIN64)
 #include <Windows.h>
 #endif
-#include "jrandom.h"
-#include "slimeHunter.h"
+#include "jrandom.hpp"
+#include "slimeHunter.hpp"
 #include <crtdbg.h>
 #include <ctime>
 #include <stdlib.h>
+#include <future>
 
 // C++標準の疑似乱数生成器とbitsetとatomicで作りたい
 //
 #define FILENAMELEN 32
 int main(int argc, char* argv[], char* env[])
 {
+	unsigned long long start = 0;
+	int threadNum = 1;
+	for (int i = 1; i < argc; i++) {
+		if ((strcmp(argv[i], "--thread") == 0 || strcmp(argv[i], "-t") == 0) && i + 1 < argc) {
+			threadNum = (int)strtoull(argv[i + 1], NULL, 10);
+		}
+		else if ((strcmp(argv[i], "--start") || strcmp(argv[i], "-s") == 0) && i + 1 < argc) {
+			start = strtoull(argv[i + 1], NULL, 10);
+		}
+	}
+	std::cout << "starting seed: " + std::to_string(start) << std::endl;
+	std::cout << "starting thread: " + std::to_string(threadNum) << std::endl;
+
+	Config config;
+	config.seed = start;
+
+	std::vector<std::future<Result*>> futures(threadNum);
+	for (int i = 0; i < threadNum; i++) {
+		futures[i] = std::async(task, &config);
+	}
+	for (int i = 0; i < threadNum; i++) {
+		futures[i].get();
+	}
 	system("PAUSE");
 	return EXIT_SUCCESS;
 }

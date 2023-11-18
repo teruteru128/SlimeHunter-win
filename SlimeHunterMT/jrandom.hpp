@@ -6,6 +6,24 @@
 #include "pch.h"
 #include "internal_random.h"
 
+namespace random{
+	class Random
+	{
+	public:
+		Random();
+		Random(long);
+		~Random();
+		void setSeed(uint64_t seed);
+		int nextInt();
+		int nextInt(int bound);
+	private:
+		int64_t seed;
+		int next(int bits);
+		static uint64_t initialScramble(uint64_t seed);
+	};
+
+}
+
 #ifdef __cplusplus
 extern "C"{
 #endif
