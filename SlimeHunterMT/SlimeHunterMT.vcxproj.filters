@@ -41,13 +41,13 @@
     <ClCompile Include="SlimeHunterMT.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="mcSlimeChunkOracle.c">
+    <ClCompile Include="mcSlimeChunkOracle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="SlimeHunter.c">
+    <ClCompile Include="SlimeHunter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="jrandom.c">
+    <ClCompile Include="jrandom.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
