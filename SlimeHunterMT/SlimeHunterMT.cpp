@@ -13,7 +13,7 @@
 #elif defined(_WIN32) || defined(_WIN64)
 #include <Windows.h>
 #endif
-#include "jrandom.hpp"
+#include "rnd.h"
 #include "slimeHunter.hpp"
 #include <crtdbg.h>
 #include <ctime>
@@ -45,8 +45,12 @@ int main(int argc, char* argv[], char* env[])
 	for (int i = 0; i < threadNum; i++) {
 		futures[i] = std::async(task, &config);
 	}
+	Result* r = NULL;
 	for (int i = 0; i < threadNum; i++) {
-		futures[i].get();
+		r = futures[i].get();
+		if (r != NULL) {
+			std::cout << r->getWorldSeed() << std::endl;
+		}
 	}
 	system("PAUSE");
 	return EXIT_SUCCESS;

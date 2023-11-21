@@ -24,7 +24,7 @@
     <ClInclude Include="mcSlimeChunkOracle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="jrandom.hpp">
+    <ClInclude Include="rnd.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="slimeHunter.hpp">

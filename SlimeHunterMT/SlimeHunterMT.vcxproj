@@ -154,7 +154,7 @@
     <ClInclude Include="internal_random.h" />
     <ClInclude Include="mcSlimeChunkOracle.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="jrandom.hpp" />
+    <ClInclude Include="rnd.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="slimeHunter.hpp" />
   </ItemGroup>
