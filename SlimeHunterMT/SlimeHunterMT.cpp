@@ -64,7 +64,7 @@ int main(int argc, char* argv[], char* env[])
 	}
 	if (isAllNull) {
 		std::cout << "見つかりませんでした" << std::endl;
-		std::cout << seed << std::endl;
+		std::cout << "次回開始シード: " << seed << std::endl;
 	}
 	system("PAUSE");
 	return EXIT_SUCCESS;
