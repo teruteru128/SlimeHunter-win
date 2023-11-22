@@ -18,7 +18,12 @@
 #include <crtdbg.h>
 #include <ctime>
 #include <stdlib.h>
+#include <signal.h>
 #include <future>
+
+static void handler(int signum) {
+	cont = 0;
+}
 
 // C++標準の疑似乱数生成器とbitsetとatomicで作りたい
 //
@@ -35,22 +40,31 @@ int main(int argc, char* argv[], char* env[])
 			start = strtoull(argv[i + 1], NULL, 10);
 		}
 	}
-	std::cout << "starting seed: " + std::to_string(start) << std::endl;
-	std::cout << "starting thread: " + std::to_string(threadNum) << std::endl;
+	if (signal(SIGINT, handler) == SIG_ERR) {
+		return 1;
+	}
+	std::cout << "starting seed: " << start << std::endl;
+	std::cout << "starting thread: " << threadNum << std::endl;
 
 	Config config;
-	config.seed = start;
+	seed = start;
 
 	std::vector<std::future<Result*>> futures(threadNum);
 	for (int i = 0; i < threadNum; i++) {
 		futures[i] = std::async(task, &config);
 	}
 	Result* r = NULL;
+	bool isAllNull = 1;
 	for (int i = 0; i < threadNum; i++) {
 		r = futures[i].get();
 		if (r != NULL) {
 			std::cout << r->getWorldSeed() << std::endl;
+			isAllNull = 0;
 		}
+	}
+	if (isAllNull) {
+		std::cout << "見つかりませんでした" << std::endl;
+		std::cout << seed << std::endl;
 	}
 	system("PAUSE");
 	return EXIT_SUCCESS;

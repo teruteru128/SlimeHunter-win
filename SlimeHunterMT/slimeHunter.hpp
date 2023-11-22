@@ -9,7 +9,6 @@ class Config {
 public:
 	Config();
 	~Config();
-	std::atomic_uint64_t seed;
 protected:
 private:
 };
@@ -26,32 +25,12 @@ private:
 };
 
 Result* task(Config* config);
+extern volatile std::atomic_int cont;
+extern std::atomic_uint64_t seed;
 
 #ifdef _cplusplus
 extern "C" {
 #endif
-	typedef struct point_t {
-		int64_t x;
-		int64_t z;
-	} Point;
-	typedef struct rectangleArea_t {
-		Point northWest;
-		Point southEast;
-	} RectangleArea;
-	typedef struct rectangleSize_t {
-		// North-South width
-		uint64_t height;
-		// East-west width
-		uint64_t width;
-	} RectangleSize;
-	typedef struct searchConfig_t {
-		RectangleArea searchRange;
-		RectangleSize cursorSize;
-		uint64_t reqMinSlimeChunks;
-		uint64_t searchSeeds;
-		uint64_t currentSection;
-		uint64_t sectionNumber;
-	} SearchConfig;
 	static inline int isSlimeChunk(uint64_t seed, int chunkX, int chunkZ) {
 		uint64_t rnd = seed;
 		rnd += (int)(chunkX * 0x5ac0db);
