@@ -25,11 +25,14 @@ static void handler(int signum) {
 	cont = 0;
 }
 
-// C++標準の疑似乱数生成器とbitsetとatomicで作りたい
 //
 #define FILENAMELEN 32
 int main(int argc, char* argv[], char* env[])
 {
+	if(argc > 1 && strcmp(argv[1], "--mp") == 0) {
+		return mpsample();
+	}
+
 	unsigned long long start = 0;
 	int threadNum = 1;
 	for (int i = 1; i < argc; i++) {

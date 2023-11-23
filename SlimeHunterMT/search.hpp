@@ -28,6 +28,7 @@ Result* task(Config* config);
 extern volatile std::atomic_int cont;
 extern std::atomic_uint64_t seed;
 
+int mpsample(void);
 #ifdef _cplusplus
 extern "C" {
 #endif
