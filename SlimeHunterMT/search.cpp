@@ -1,15 +1,16 @@
 
+#include "rnd.h"
+#include "mcSlimeChunkOracle.h"
+#include "search.hpp"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <inttypes.h>
 #include <time.h>
 #include <math.h>
-#include "rnd.h"
-#include "mcSlimeChunkOracle.h"
-#include "search.hpp"
 #include <bitset>
 #include <atomic>
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include <omp.h>
@@ -24,27 +25,46 @@ Result* task(Config* config) {
 	bitset<625 * 625>* set = new bitset<625 * 625>();
 	int x = 0;
 	int z = 0;
+	int tempZ;
+	int lineCombo = 0;
+	int lineComboMax = 0;
 	Result* result = NULL;
 	uint64_t worldSeed = 0;
 	bool found = false;
 	while (cont) {
 		worldSeed = seed++;
 		for (z = 0; z < 625; z++) {
+			tempZ = z * 625;
 			for (x = 0; x < 625; x++) {
-				set->set(z * 625 + x, isSlimeChunk(worldSeed, x - 312, z - 312));
+				set->set(tempZ + x, isSlimeChunk(worldSeed, x - 312, z - 312));
 			}
 		}
 		found = false;
 		for (z = 621; z >= 0; z--) {
+			// 時間と空間のトレードオフ
+			// 連続でスライムチャンクが並んでる個数を数える
+			lineComboMax = 0;
+			lineCombo = 0;
+			tempZ = z * 625;
+			for (x = 0; x < 625; x++) {
+				lineCombo = (set->test(tempZ + x)) ? (lineCombo + 1) : 0;
+				lineComboMax = std::max(lineComboMax, lineCombo);
+			}
+			// 4個未満ならスキップ
+			if (lineComboMax < 4)
+			{
+				z -= 3;
+				continue;
+			}
 			for (x = 621; x >= 0; x--)
 			{
 				found |= extracted(set, x, z);
 			}
 		}
 		if (found) {
+			cont = 0;
 			std::cout << "見つけたー！[" << worldSeed << "]" << std::endl;
 			result = new Result(worldSeed, x - 312, z - 312);
-			cont = 0;
 		}
 		if ((worldSeed & 0xfffL) == 0xfffL) {
 			std::cout << "done: " << worldSeed << std::endl;
