@@ -25,7 +25,7 @@ Result* task(Config* config) {
 	bitset<625 * 625>* set = new bitset<625 * 625>();
 	int x = 0;
 	int z = 0;
-	int tempZ;
+	int tempZ0;
 	int lineCombo = 0;
 	int lineComboMax = 0;
 	Result* result = NULL;
@@ -33,21 +33,19 @@ Result* task(Config* config) {
 	bool found = false;
 	while (cont) {
 		worldSeed = seed++;
-		for (z = 0; z < 625; z++) {
-			tempZ = z * 625;
+		for (z = 0, tempZ0 = 0; z < 625; z++, tempZ0 += 625) {
 			for (x = 0; x < 625; x++) {
-				set->set(tempZ + x, isSlimeChunk(worldSeed, x - 312, z - 312));
+				set->set(tempZ0 + x, isSlimeChunk(worldSeed, x - 312, z - 312));
 			}
 		}
 		found = false;
-		for (z = 621; z >= 0; z--) {
+		for (z = 621, tempZ0 = 388125; z >= 0; z--, tempZ0 -= 625) {
 			// 時間と空間のトレードオフ
 			// 連続でスライムチャンクが並んでる個数を数える
 			lineComboMax = 0;
 			lineCombo = 0;
-			tempZ = z * 625;
 			for (x = 0; x < 625; x++) {
-				lineCombo = (set->test(tempZ + x)) ? (lineCombo + 1) : 0;
+				lineCombo = (set->test(tempZ0 + x)) ? (lineCombo + 1) : 0;
 				lineComboMax = std::max(lineComboMax, lineCombo);
 			}
 			// 4個未満ならスキップ
@@ -66,7 +64,7 @@ Result* task(Config* config) {
 			std::cout << "見つけたー！[" << worldSeed << "]" << std::endl;
 			result = new Result(worldSeed, x - 312, z - 312);
 		}
-		if ((worldSeed & 0xfffL) == 0xfffL) {
+		if ((worldSeed & 0x3fffL) == 0x3fffL) {
 			std::cout << "done: " << worldSeed << std::endl;
 		}
 	}
@@ -93,8 +91,7 @@ int mpsample(void) {
 	int z = 0;
 	int x = 0;
 	bool found = false;
-#pragma omp parallel for reduction(| : found)
-	for (z = 621; z >= 0; z--){
+	for (z = 621; z >= 0; z--) {
 #pragma omp parallel for reduction(| : found)
 		for (x = 621; x >= 0; x--) {
 			found |= extracted(set, x, z);
