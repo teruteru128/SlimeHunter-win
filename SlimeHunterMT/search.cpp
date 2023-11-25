@@ -16,7 +16,7 @@
 #include <omp.h>
 using std::bitset;
 
-bool extracted(std::bitset<625 * 625>* set, int x, int z);
+bool extracted(bitset<625 * 625>* set, int x, int z);
 
 volatile std::atomic_int cont = 1;
 std::atomic_uint64_t seed;
