@@ -1,4 +1,5 @@
 
+#pragma once
 #ifndef INTERNAL_RANDOM_H
 #define INTERNAL_RANDOM_H
 
@@ -7,4 +8,3 @@
 #define MASK 0xFFFFFFFFFFFFULL
 
 #endif
-

@@ -1,5 +1,5 @@
-#pragma once
 
+#pragma once
 #ifndef SLIME_HUNTER_H
 #define SLIME_HUNTER_H
 #include <stdint.h>
