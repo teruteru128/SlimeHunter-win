@@ -16,7 +16,7 @@
 #include <omp.h>
 using std::bitset;
 
-bool extracted(bitset<625 * 625>* set, int x, int z);
+bool extracted(bitset<625 * 625>* set, int x, int tempZ0, int tempZ1, int tempZ2, int tempZ3);
 
 volatile std::atomic_int cont = 1;
 std::atomic_uint64_t seed;
@@ -26,6 +26,9 @@ Result* task(Config* config) {
 	int x = 0;
 	int z = 0;
 	int tempZ0;
+	int tempZ1;
+	int tempZ2;
+	int tempZ3;
 	int lineCombo = 0;
 	int lineComboMax = 0;
 	Result* result = NULL;
@@ -39,7 +42,7 @@ Result* task(Config* config) {
 			}
 		}
 		found = false;
-		for (z = 621, tempZ0 = 388125; z >= 0; z--, tempZ0 -= 625) {
+		for (z = 621, tempZ0 = 388125, tempZ1 = 388750, tempZ2 = 389375, tempZ3 = 390000; z >= 0; z--, tempZ0 -= 625, tempZ1 -= 625, tempZ2 -= 625, tempZ3 -= 625) {
 			// 時間と空間のトレードオフ
 			// 連続でスライムチャンクが並んでる個数を数える
 			lineComboMax = 0;
@@ -56,7 +59,7 @@ Result* task(Config* config) {
 			}
 			for (x = 621; x >= 0; x--)
 			{
-				found |= extracted(set, x, z);
+				found |= extracted(set, x, tempZ0, tempZ1, tempZ2, tempZ3);
 			}
 		}
 		if (found) {
@@ -75,11 +78,11 @@ Result* task(Config* config) {
 // TODO &&で繋いだ短絡評価と&で繋いだ投機的実行でどっちのほうが早くなるんだろうか->ベンチマーク
 // TODO ベンチマーク->特定のシードではなくランダムなシードを使って計測されなければならない
 // TODO 全スレッドで1シードを検査すべきなのか、各スレッドでそれぞれ別のシードを探索すべきなのか(計算粒度の問題)
-inline bool extracted(std::bitset<625 * 625>* set, int x, int z) {
-	return set->test((z + 3) * 625 + x + 0) && set->test((z + 3) * 625 + x + 1) && set->test((z + 3) * 625 + x + 2) && set->test((z + 3) * 625 + x + 3) &&
-		set->test((z + 2) * 625 + x + 0) && set->test((z + 2) * 625 + x + 1) && set->test((z + 2) * 625 + x + 2) && set->test((z + 2) * 625 + x + 3) &&
-		set->test((z + 1) * 625 + x + 0) && set->test((z + 1) * 625 + x + 1) && set->test((z + 1) * 625 + x + 2) && set->test((z + 1) * 625 + x + 3) &&
-		set->test((z + 0) * 625 + x + 0) && set->test((z + 0) * 625 + x + 1) && set->test((z + 0) * 625 + x + 2) && set->test((z + 0) * 625 + x + 3);
+inline bool extracted(std::bitset<625 * 625>* set, int x, int tempZ0, int tempZ1, int tempZ2, int tempZ3) {
+	return set->test(tempZ3 + x + 0) && set->test(tempZ3 + x + 1) && set->test(tempZ3 + x + 2) && set->test(tempZ3 + x + 3) &&
+		set->test(tempZ2 + x + 0) && set->test(tempZ2 + x + 1) && set->test(tempZ2 + x + 2) && set->test(tempZ2 + x + 3) &&
+		set->test(tempZ1 + x + 0) && set->test(tempZ1 + x + 1) && set->test(tempZ1 + x + 2) && set->test(tempZ1 + x + 3) &&
+		set->test(tempZ0 + x + 0) && set->test(tempZ0 + x + 1) && set->test(tempZ0 + x + 2) && set->test(tempZ0 + x + 3);
 }
 
 int mpsample(void) {
@@ -89,12 +92,16 @@ int mpsample(void) {
 		set->set(pos, isSlimeChunk(263622805221400ULL, (pos % 625) - 312, (pos / 625) - 312));
 	}
 	int z = 0;
+	int tempZ0;
+	int tempZ1;
+	int tempZ2;
+	int tempZ3;
 	int x = 0;
 	bool found = false;
-	for (z = 621; z >= 0; z--) {
+	for (z = 621, tempZ0 = 388125, tempZ1 = 388750, tempZ2 = 389375, tempZ3 = 390000; z >= 0; z--, tempZ0 -= 625, tempZ1 -= 625, tempZ2 -= 625, tempZ3 -= 625) {
 #pragma omp parallel for reduction(| : found)
 		for (x = 621; x >= 0; x--) {
-			found |= extracted(set, x, z);
+			found |= extracted(set, x, tempZ0, tempZ1, tempZ2, tempZ3);
 		}
 	}
 	std::cout << found << std::endl;
