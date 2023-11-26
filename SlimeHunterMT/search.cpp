@@ -1,4 +1,6 @@
 
+#define CL_TARGET_OPENCL_VERSION 300
+#include "pch.h"
 #include "rnd.h"
 #include "mcSlimeChunkOracle.h"
 #include "search.hpp"
