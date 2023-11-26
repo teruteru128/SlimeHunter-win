@@ -18,6 +18,7 @@ int clmain(void) {
 	if (set == NULL) {
 		return 1;
 	}
+	memset(set, 0xff, sizeof(uint64_t) * 6104);
 	int x = 0;
 	int z = 0;
 	size_t pos = 0;
@@ -33,8 +34,6 @@ int clmain(void) {
 				set[wordIndex] |= (1LL << shift);
 			}
 			else {
-				if (x == 441 && z == 264) {
-				}
 				set[wordIndex] &= ~(1LL << shift);
 			}
 		}
@@ -103,7 +102,6 @@ int clmain(void) {
 	if (result == NULL) {
 		return 1;
 	}
-	memset(result, 0, sizeof(int) * 622 * 622);
 	checkError("clEnqueueReadBuffer", clEnqueueReadBuffer(gCommandQueue, gResult, CL_TRUE, 0, sizeof(int) * 622 * 622, result, 0, NULL, NULL));
 
 	// メモリオブジェクト開放
@@ -112,7 +110,7 @@ int clmain(void) {
 
 	for (z = 0; z < 622; z++) {
 		for (x = 0; x < 622; x++) {
-			if (result[z * 622 + x] >= 16) {
+			if (result[z * 622 + x] >= 10) {
 				std::cout << "found!:" << x - 312 << "," << z - 312 << ": " << result[z * 622 + x] << std::endl;
 			}
 		}
