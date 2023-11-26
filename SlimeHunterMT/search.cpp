@@ -20,7 +20,7 @@ using std::bitset;
 bool extracted(bitset<625 * 625>* set, int x, int z);
 
 volatile std::atomic_int cont = 1;
-std::atomic_uint64_t seed;
+volatile std::atomic_uint64_t seed;
 
 Result* task(Config* config) {
 	bitset<625 * 625>* set = new bitset<625 * 625>();
