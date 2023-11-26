@@ -117,7 +117,7 @@ int clmain(void) {
 			}
 		}
 	}
-	std::cout << std::hex << result[(312 - 48) * 622 + 312 + 129] << std::endl;
+	// std::cout << std::hex << result[(312 - 48) * 622 + 312 + 129] << std::endl;
 	return 0;
 }
 

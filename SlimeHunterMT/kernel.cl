@@ -1,10 +1,6 @@
 
 typedef unsigned long long uint64_t;
 
-static inline int p(__global uint64_t *chunks, size_t x, size_t z) {
-  return (chunks[(z * 625 + x) >> 6] >> ((z * 625 + x) & 0x3f)) & 1;
-}
-
 __kernel void tallySlimeCunks(__global int *result, __global uint64_t *chunks) {
   size_t x = get_global_id(0);
   size_t z = get_global_id(1);
