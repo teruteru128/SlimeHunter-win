@@ -16,73 +16,79 @@
         "Entry"
         {
         "MsmKey" = "8:_00FEC4C7BBC20BC41036857A47570555"
-        "OwnerKey" = "8:_E85E7B5BBB8A41CFBF488249AC75A0DC"
+        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_0ED28C5CA18ADC7531A6EC1ED5E8DAF8"
-        "OwnerKey" = "8:_E85E7B5BBB8A41CFBF488249AC75A0DC"
+        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_562B15495E2D0E3C6F0444AD32B8107F"
-        "OwnerKey" = "8:_E85E7B5BBB8A41CFBF488249AC75A0DC"
+        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_57135EAA3850E671562BA57E5390145D"
-        "OwnerKey" = "8:_E85E7B5BBB8A41CFBF488249AC75A0DC"
+        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_5861311CA3FFF4F67AA79BD29F0D9CC6"
-        "OwnerKey" = "8:_E85E7B5BBB8A41CFBF488249AC75A0DC"
+        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_6A0EE8E359EF9CA26BB6DA54FBE9A951"
-        "OwnerKey" = "8:_E85E7B5BBB8A41CFBF488249AC75A0DC"
+        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_AE0D24E62EC4A39BC4D510D5706F28C6"
-        "OwnerKey" = "8:_E85E7B5BBB8A41CFBF488249AC75A0DC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C43036356A90DD19FC6EDA61CCB92901"
-        "OwnerKey" = "8:_E85E7B5BBB8A41CFBF488249AC75A0DC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_D36565CA03A331BD9266D759357BEA24"
-        "OwnerKey" = "8:_E85E7B5BBB8A41CFBF488249AC75A0DC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E85E7B5BBB8A41CFBF488249AC75A0DC"
+        "MsmKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
+        "MsmKey" = "8:_AE0D24E62EC4A39BC4D510D5706F28C6"
+        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C43036356A90DD19FC6EDA61CCB92901"
+        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D36565CA03A331BD9266D759357BEA24"
+        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_ED081C94B441845EDB9355461BCB9D48"
-        "OwnerKey" = "8:_E85E7B5BBB8A41CFBF488249AC75A0DC"
+        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_ED156F6F49C91BE602F0827C61AC1EFC"
+        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_F912AE28B09193BE466A673426229339"
-        "OwnerKey" = "8:_E85E7B5BBB8A41CFBF488249AC75A0DC"
+        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -103,6 +109,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -119,6 +133,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -203,7 +225,7 @@
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_57135EAA3850E671562BA57E5390145D"
             {
             "SourcePath" = "8:api-ms-win-crt-convert-l1-1-0.dll"
-            "TargetName" = "8:api-ms-win-crt-convert-l1-1-0.dll"
+            "TargetName" = "8:SlimeHunterMT"
             "Tag" = "8:"
             "Folder" = "8:_53BA3048F9324065BA73233EF893FB96"
             "Condition" = "8:"
@@ -324,6 +346,26 @@
             {
             "SourcePath" = "8:api-ms-win-crt-string-l1-1-0.dll"
             "TargetName" = "8:api-ms-win-crt-string-l1-1-0.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_53BA3048F9324065BA73233EF893FB96"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_ED156F6F49C91BE602F0827C61AC1EFC"
+            {
+            "SourcePath" = "8:OpenCL.dll"
+            "TargetName" = "8:OpenCL.dll"
             "Tag" = "8:"
             "Folder" = "8:_53BA3048F9324065BA73233EF893FB96"
             "Condition" = "8:"
@@ -548,15 +590,15 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_DF3B52199A084CC7BA4E921BCEE8328F"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_D5CD2572939C417BA74681849BC88F2D"
             {
-            "Name" = "8:SlimeHunterMT"
+            "Name" = "8:Shortcut to %sプライマリ出力 from SlimeHunterMT (Release x64)"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_E85E7B5BBB8A41CFBF488249AC75A0DC"
+            "Target" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
             "Folder" = "8:_09C2B6CF6D944DE6BAEC957E78401D6E"
             "WorkingFolder" = "8:_53BA3048F9324065BA73233EF893FB96"
             "Icon" = "8:"
@@ -961,7 +1003,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_E85E7B5BBB8A41CFBF488249AC75A0DC"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_7CB4110A4D7347D39CD87EC37C002FA5"
             {
             "SourcePath" = "8:..\\x64\\Release\\SlimeHunterMT.exe"
             "TargetName" = "8:"

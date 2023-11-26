@@ -14,6 +14,7 @@
 #include <iostream>
 #include <string>
 #include <omp.h>
+#include <CL/cl.h>
 using std::bitset;
 
 bool extracted(bitset<625 * 625>* set, int x, int z);

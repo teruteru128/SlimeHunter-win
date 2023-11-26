@@ -1,6 +1,8 @@
 ﻿// SlimeHunterMT.cpp : このファイルには 'main' 関数が含まれています。プログラム実行の開始と終了がそこで行われます。
 //
 
+#define CL_TARGET_OPENCL_VERSION 300
+
 #include "pch.h"
 #include <iostream>
 #include <random>
@@ -20,19 +22,33 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <future>
-
+#include <CL/cl.h>
+#include "main.h"
+#define checkError(openclFunction)          \
+    if (cl_int err = (openclFunction))      \
+    {                                       \
+        printf("error : %d\n", err);        \
+    }
 static void handler(int signum) {
 	cont = 0;
 }
+int clsample();
+static void showPlatformInfo(cl_platform_id platform);
+static void showDeviceInfo(cl_device_id device);
 
 //
 #define FILENAMELEN 32
 int main(int argc, char* argv[], char* env[])
 {
-	if(argc > 1 && strcmp(argv[1], "--mp") == 0) {
+	// サンプルへリンク
+	if (argc > 1 && strcmp(argv[1], "--mp") == 0) {
 		return mpsample();
 	}
+	if (argc > 1 && strcmp(argv[1], "--cl") == 0) {
+		return clsample();
+	}
 
+	// スレッド数と初期シードを設定
 	unsigned long long start = 0;
 	int threadNum = 1;
 	for (int i = 1; i < argc; i++) {
@@ -43,6 +59,7 @@ int main(int argc, char* argv[], char* env[])
 			start = strtoull(argv[i + 1], NULL, 10);
 		}
 	}
+	// ctrl-cで中断するためのハンドラーを設定(フラグを降ろす用)
 	if (signal(SIGINT, handler) == SIG_ERR) {
 		return 1;
 	}
@@ -61,7 +78,8 @@ int main(int argc, char* argv[], char* env[])
 	for (int i = 0; i < threadNum; i++) {
 		r = futures[i].get();
 		if (r != NULL) {
-			std::cout << r->getWorldSeed() << std::endl;
+			std::cout << "見つかりました" << r->getWorldSeed() << std::endl;
+			delete r;
 			isAllNull = 0;
 		}
 	}
@@ -71,6 +89,69 @@ int main(int argc, char* argv[], char* env[])
 	std::cout << "次回開始シード: " << seed << std::endl;
 	system("PAUSE");
 	return EXIT_SUCCESS;
+}
+
+static int clsample()
+{
+	int platformIdx = 0;
+	int deviceIdx = 0;
+	// プラットフォーム取得
+	cl_uint platformNumber = 0;
+	cl_platform_id platformIds[8];
+	checkError(clGetPlatformIDs(8, platformIds, &platformNumber));
+	std::cout << "platform number" << platformNumber << std::endl;
+	cl_platform_id platform = platformIds[platformIdx];
+	showPlatformInfo(platform);
+
+	// デバイス取得
+	cl_uint deviceNumber = 0;
+	cl_device_id deviceIds[8];
+	checkError(clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, 8, deviceIds, &deviceNumber));
+	std::cout << "device numbner:" << deviceNumber << std::endl;
+	cl_device_id gDevice = deviceIds[deviceIdx];
+	showDeviceInfo(gDevice);
+	return 0;
+}
+
+static void showPI(cl_platform_id platform, const char* label, cl_platform_info name) {
+	size_t val;
+	checkError(clGetPlatformInfo(platform, name, 0, NULL, &val));
+	char* ptr = (char*)malloc(val);
+	checkError(clGetPlatformInfo(platform, name, val, ptr, &val));
+	std::cout << label << ptr << std::endl;
+	free(ptr);
+	ptr = NULL;
+}
+
+static void showPlatformInfo(cl_platform_id platform) {
+	showPI(platform, "platform profile: ", CL_PLATFORM_PROFILE);
+	showPI(platform, "platform version: ", CL_PLATFORM_VERSION);
+	showPI(platform, "platform name: ", CL_PLATFORM_NAME);
+	showPI(platform, "platform vendor: ", CL_PLATFORM_VENDOR);
+	showPI(platform, "platform extensions: ", CL_PLATFORM_EXTENSIONS);
+	showPI(platform, "platform host timer resolution: ", CL_PLATFORM_HOST_TIMER_RESOLUTION);
+}
+
+static void showDI(cl_device_id device, const char* label, cl_device_info name) {
+	size_t val;
+	checkError(clGetDeviceInfo(device, name, 0, NULL, &val));
+	char* ptr = (char*)malloc(val);
+	checkError(clGetDeviceInfo(device, name, val, ptr, &val));
+	std::cout << label << ptr << std::endl;
+	free(ptr);
+}
+
+static void showDeviceInfo(cl_device_id device) {
+	size_t val;
+	checkError(clGetDeviceInfo(device, CL_DEVICE_TYPE, 0, NULL, &val));
+	cl_device_type* ptr = (cl_device_type*)malloc(sizeof(cl_device_type));
+	if (ptr == NULL) {
+		// FIXME deadcode
+		return;
+	}
+	checkError(clGetDeviceInfo(device, CL_DEVICE_TYPE, val, ptr, &val));
+	std::cout << "device type: " << *ptr << std::endl;
+	free(ptr);
 }
 
 // プログラムの実行: Ctrl + F5 または [デバッグ] > [デバッグなしで開始] メニュー
