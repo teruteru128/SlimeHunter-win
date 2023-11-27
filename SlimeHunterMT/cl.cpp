@@ -10,68 +10,44 @@ static int showDeviceInfo(cl_device_id device);
 cl_program compileProgram(cl_context gContext, cl_device_id gDevice, const char* fileName);
 cl_kernel createKernel(cl_program program, const char* kernelName, cl_int* ret);
 
-// bitsetã‚’kernelã§æ‰±ãˆã‚‹ã‚ˆã†ã«unsigned long long* ã§ç½®ãæ›ãˆãƒ¼ã®
-// clã§é›†è¨ˆé–¢æ•°ã‚’æ›¸ããƒ¼ã®
-// CPUã§é›†è¨ˆçµæœã‚’ã¾ã¨ã‚ï½ã®
+// bitset‚ğkernel‚Åˆµ‚¦‚é‚æ‚¤‚Éunsigned long long* ‚Å’u‚«Š·‚¦[‚Ì
+// cl‚ÅWŒvŠÖ”‚ğ‘‚«[‚Ì
+// CPU‚ÅWŒvŒ‹‰Ê‚ğ‚Ü‚Æ‚ß`‚Ì
 int clmain(void) {
-	uint64_t* set = (uint64_t*)malloc(sizeof(uint64_t) * 6104);
-	if (set == NULL) {
-		return 1;
-	}
-	memset(set, 0xff, sizeof(uint64_t) * 6104);
-	int x = 0;
-	int z = 0;
-	size_t pos = 0;
-	size_t wordIndex = 0;
-	size_t shift = 0;
-	for (z = 0; z < 625; z++) {
-		for (x = 0; x < 625; x++)
-		{
-			pos = (z * 625) + x;
-			wordIndex = pos >> 6;
-			shift = pos & 0x3f;
-			if (isSlimeChunk(263622805221400L, x - 312, z - 312)) {
-				set[wordIndex] |= (1LL << shift);
-			}
-			else {
-				set[wordIndex] &= ~(1LL << shift);
-			}
-		}
-	}
 	int platformIdx = 0;
 	int deviceIdx = 0;
 	cl_context gContext = NULL;
 	cl_command_queue gCommandQueue = NULL;
-	// ãƒ—ãƒ©ãƒƒãƒˆãƒ•ã‚©ãƒ¼ãƒ å–å¾—
+	// ƒvƒ‰ƒbƒgƒtƒH[ƒ€æ“¾
 	cl_uint platformNumber = 0;
 	cl_platform_id platformIds[8];
 	checkError("clGetPlatformIDs", clGetPlatformIDs(8, platformIds, &platformNumber));
 	cl_platform_id platform = platformIds[platformIdx];
 
-	// ãƒ‡ãƒã‚¤ã‚¹å–å¾—
+	// ƒfƒoƒCƒXæ“¾
 	cl_uint deviceNumber = 0;
 	cl_device_id deviceIds[8];
 	checkError("clGetDeviceIDs", clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, 8, deviceIds, &deviceNumber));
 	cl_device_id gDevice = deviceIds[deviceIdx];
 
-	// ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆï¼ˆãƒ¡ãƒ¢ãƒªç¢ºä¿ãªã©ã«ä½¿ç”¨ï¼‰ã¨ã‚³ãƒãƒ³ãƒ‰ã‚­ãƒ¥ãƒ¼ï¼ˆã‚«ãƒ¼ãƒãƒ«ã®å®Ÿè¡Œãªã©ã«ä½¿ç”¨ï¼‰ã‚’ä½œæˆ
+	// ƒRƒ“ƒeƒLƒXƒgiƒƒ‚ƒŠŠm•Û‚È‚Ç‚Ég—pj‚ÆƒRƒ}ƒ“ƒhƒLƒ…[iƒJ[ƒlƒ‹‚ÌÀs‚È‚Ç‚Ég—pj‚ğì¬
 	gContext = clCreateContext(NULL, 1, &gDevice, NULL, NULL, NULL);
 	gCommandQueue = clCreateCommandQueueWithProperties(gContext, gDevice, 0, NULL);
 
-	// ãƒ‡ãƒã‚¤ã‚¹ç”¨ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’ä½œæˆ
+	// ƒfƒoƒCƒX—pƒvƒƒOƒ‰ƒ€‚ğì¬
 	cl_int ret = 0;
 	cl_program program = compileProgram(gContext, gDevice, "kernel.cl");
 	if (program == NULL) {
 		std::cerr << "compileProgram error" << std::endl;
 	}
-	// ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’ã‚«ãƒ¼ãƒãƒ«ã«å¤‰æ›
+	// ƒvƒƒOƒ‰ƒ€‚ğƒJ[ƒlƒ‹‚É•ÏŠ·
 	cl_kernel kernel = createKernel(program, "tallySlimeCunks", &ret);
 	if (ret != CL_SUCCESS) {
 		std::cerr << "error : " << ret << std::endl;
 		return 1;
 	}
 
-	// ãƒ‡ãƒã‚¤ã‚¹ç”¨ãƒ¡ãƒ¢ãƒªã‚’ç¢ºä¿
+	// ƒfƒoƒCƒX—pƒƒ‚ƒŠ‚ğŠm•Û
 	cl_mem gResult = clCreateBuffer(gContext, CL_MEM_READ_WRITE, sizeof(int) * 622 * 622, NULL, &ret);
 	if (ret != 0) {
 		std::cerr << "clCreateBuffer 1" << ret << std::endl;
@@ -82,45 +58,78 @@ int clmain(void) {
 		std::cerr << "clCreateBuffer 2" << ret << std::endl;
 		return 1;
 	}
-
-	// host to dev ãƒ¡ãƒ¢ãƒªè»¢é€
-	checkError("clEnqueueWriteBuffer", clEnqueueWriteBuffer(gCommandQueue, gOrigin, CL_TRUE, 0, sizeof(uint64_t) * 6104, set, 0, NULL, NULL));
-
-	// ãƒ¡ãƒ¢ãƒªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã‚«ãƒ¼ãƒãƒ«é–¢æ•°ã®å¼•æ•°ã«ã‚»ãƒƒãƒˆ
-	checkError("clSetKernelArg 1", clSetKernelArg(kernel, 0, sizeof(cl_mem), &gResult));
-	checkError("clSetKernelArg 2", clSetKernelArg(kernel, 1, sizeof(cl_mem), &gOrigin));
-
-	// ã‚«ãƒ¼ãƒãƒ«ã®ä¸¦åˆ—å®Ÿè¡Œæ•°ã‚’è¨­å®š
-	size_t globalWorkSize[2] = { 622, 622 };
-	//size_t localWorkSize[2] = { 2, 2 };
-
-	// ã‚«ãƒ¼ãƒãƒ«ã®å‘¼ã³å‡ºã—
-	checkError("clEnqueueNDRangeKernel", clEnqueueNDRangeKernel(gCommandQueue, kernel, 2, NULL, globalWorkSize, NULL, 0, NULL, NULL));
-
-	// dev to host ãƒ¡ãƒ¢ãƒªè»¢é€
+	uint64_t* set = (uint64_t*)malloc(sizeof(uint64_t) * 6104);
+	if (set == NULL) {
+		return 1;
+	}
 	char* result = (char*)malloc(sizeof(char) * 622 * 622);
 	if (result == NULL) {
 		return 1;
 	}
-	checkError("clEnqueueReadBuffer", clEnqueueReadBuffer(gCommandQueue, gResult, CL_TRUE, 0, sizeof(char) * 622 * 622, result, 0, NULL, NULL));
-
-	// ãƒ¡ãƒ¢ãƒªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé–‹æ”¾
-	clReleaseMemObject(gResult);
-	clReleaseMemObject(gOrigin);
-
-	for (z = 0; z < 622; z++) {
-		for (x = 0; x < 622; x++) {
-			if (result[z * 622 + x] >= 10) {
-				std::cout << "found!:" << x - 312 << "," << z - 312 << ": " << result[z * 622 + x] << std::endl;
+	int x = 0;
+	int z = 0;
+	size_t pos = 0;
+	size_t wordIndex = 0;
+	size_t shift = 0;
+	int com = 1;
+	// ƒJ[ƒlƒ‹‚Ì•À—ñÀs”‚ğİ’è
+	size_t globalWorkSize[2] = { 622, 622 };
+	for (uint64_t worldSeed = 1767368743ULL; com; worldSeed++) {
+		for (z = 0; z < 625; z++) {
+			for (x = 0; x < 625; x++)
+			{
+				pos = (z * 625) + x;
+				wordIndex = pos >> 6;
+				shift = pos & 0x3f;
+				if (isSlimeChunk(worldSeed, x - 312, z - 312)) {
+					set[wordIndex] |= (1ULL << shift);
+				}
+				else {
+					set[wordIndex] &= ~(1ULL << shift);
+				}
 			}
 		}
+
+		// host to dev ƒƒ‚ƒŠ“]‘—
+		checkError("clEnqueueWriteBuffer", clEnqueueWriteBuffer(gCommandQueue, gOrigin, CL_TRUE, 0, sizeof(uint64_t) * 6104, set, 0, NULL, NULL));
+
+		// ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚ğƒJ[ƒlƒ‹ŠÖ”‚Ìˆø”‚ÉƒZƒbƒg
+		checkError("clSetKernelArg 1", clSetKernelArg(kernel, 0, sizeof(cl_mem), &gResult));
+		checkError("clSetKernelArg 2", clSetKernelArg(kernel, 1, sizeof(cl_mem), &gOrigin));
+
+		// ƒJ[ƒlƒ‹‚ÌŒÄ‚Ño‚µ
+		checkError("clEnqueueNDRangeKernel", clEnqueueNDRangeKernel(gCommandQueue, kernel, 2, NULL, globalWorkSize, NULL, 0, NULL, NULL));
+
+		// dev to host ƒƒ‚ƒŠ“]‘—
+		checkError("clEnqueueReadBuffer", clEnqueueReadBuffer(gCommandQueue, gResult, CL_TRUE, 0, sizeof(char) * 622 * 622, result, 0, NULL, NULL));
+
+		for (z = 0; z < 622; z++) {
+			for (x = 0; x < 622; x++) {
+				if (result[z * 622 + x] >= 16) {
+					std::cout << "found!: " << worldSeed << ", " << x - 312 << ", " << z - 312 << std::endl;
+					com = 0;
+				}
+			}
+		}
+		if ((worldSeed & 0x3fffL) == 0x3fffL) {
+			std::cout << "done: " << worldSeed << std::endl;
+		}
 	}
-	// std::cout << std::hex << result[(312 - 48) * 622 + 312 + 129] << std::endl;
+
+	clFinish(gCommandQueue);
+	// ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒgŠJ•ú
+	clReleaseMemObject(gResult);
+	clReleaseMemObject(gOrigin);
+	clReleaseCommandQueue(gCommandQueue);
+	clReleaseKernel(kernel);
+	clReleaseProgram(program);
+	clReleaseContext(gContext);
+
 	return 0;
 }
 
 cl_program compileProgram(cl_context gContext, cl_device_id gDevice, const char* fileName) {
-	// ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®èª­ã¿è¾¼ã¿
+	// ƒvƒƒOƒ‰ƒ€‚Ì“Ç‚İ‚İ
 	FILE* fp = NULL;
 	errno_t ret = fopen_s(&fp, fileName, "r");
 	if (ret != 0)
@@ -141,10 +150,10 @@ cl_program compileProgram(cl_context gContext, cl_device_id gDevice, const char*
 	size_t sourceSize = fread(sourceString, sizeof(char), filesize, fp);
 	fclose(fp);
 
-	// ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
+	// ƒvƒƒOƒ‰ƒ€‚ÌƒRƒ“ƒpƒCƒ‹
 	cl_program program = clCreateProgramWithSource(gContext, 1, (const char**)&sourceString, (const size_t*)&sourceSize, NULL);
 	cl_int err = clBuildProgram(program, 1, &gDevice, NULL, NULL, NULL);
-	// ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã«å¤±æ•—ã—ãŸå ´åˆã¯ã‚¨ãƒ©ãƒ¼å†…å®¹ã‚’è¡¨ç¤º
+	// ƒRƒ“ƒpƒCƒ‹‚É¸”s‚µ‚½ê‡‚ÍƒGƒ‰[“à—e‚ğ•\¦
 	if (err != CL_SUCCESS)
 	{
 		size_t logSize;
@@ -166,7 +175,7 @@ int clsample()
 {
 	int platformIdx = 0;
 	int deviceIdx = 0;
-	// ãƒ—ãƒ©ãƒƒãƒˆãƒ•ã‚©ãƒ¼ãƒ å–å¾—
+	// ƒvƒ‰ƒbƒgƒtƒH[ƒ€æ“¾
 	cl_uint platformNumber = 0;
 	cl_platform_id platformIds[8];
 	if (cl_int err = (clGetPlatformIDs(8, platformIds, &platformNumber))) {
@@ -177,7 +186,7 @@ int clsample()
 	cl_platform_id platform = platformIds[platformIdx];
 	showPlatformInfo(platform);
 
-	// ãƒ‡ãƒã‚¤ã‚¹å–å¾—
+	// ƒfƒoƒCƒXæ“¾
 	cl_uint deviceNumber = 0;
 	cl_device_id deviceIds[8];
 	if (cl_int err = (clGetDeviceIDs(platform, 0xFFFFFFFF, 8, deviceIds, &deviceNumber))) {
