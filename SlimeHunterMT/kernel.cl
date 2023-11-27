@@ -1,5 +1,5 @@
 
-typedef unsigned long long uint64_t;
+typedef unsigned long uint64_t;
 
 static inline size_t pos(size_t x, size_t z) { return z * 625 + x; }
 
