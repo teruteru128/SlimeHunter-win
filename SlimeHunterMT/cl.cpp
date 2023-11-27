@@ -10,9 +10,9 @@ static int showDeviceInfo(cl_device_id device);
 cl_program compileProgram(cl_context gContext, cl_device_id gDevice, const char* fileName);
 cl_kernel createKernel(cl_program program, const char* kernelName, cl_int* ret);
 
-// bitset��kernel�ň�����悤��unsigned long long* �Œu�������[��
-// cl�ŏW�v�֐��������[��
-// CPU�ŏW�v���ʂ��܂Ƃ߁`��
+// bitsetをkernelで扱えるようにunsigned long long* で置き換えーの
+// clで集計関数を書きーの
+// CPUで集計結果をまとめ～の
 int clmain(void) {
 	uint64_t* set = (uint64_t*)malloc(sizeof(uint64_t) * 6104);
 	if (set == NULL) {
@@ -42,36 +42,36 @@ int clmain(void) {
 	int deviceIdx = 0;
 	cl_context gContext = NULL;
 	cl_command_queue gCommandQueue = NULL;
-	// �v���b�g�t�H�[���擾
+	// プラットフォーム取得
 	cl_uint platformNumber = 0;
 	cl_platform_id platformIds[8];
 	checkError("clGetPlatformIDs", clGetPlatformIDs(8, platformIds, &platformNumber));
 	cl_platform_id platform = platformIds[platformIdx];
 
-	// �f�o�C�X�擾
+	// デバイス取得
 	cl_uint deviceNumber = 0;
 	cl_device_id deviceIds[8];
 	checkError("clGetDeviceIDs", clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, 8, deviceIds, &deviceNumber));
 	cl_device_id gDevice = deviceIds[deviceIdx];
 
-	// �R���e�L�X�g�i�������m�ۂȂǂɎg�p�j�ƃR�}���h�L���[�i�J�[�l���̎��s�ȂǂɎg�p�j���쐬
+	// コンテキスト（メモリ確保などに使用）とコマンドキュー（カーネルの実行などに使用）を作成
 	gContext = clCreateContext(NULL, 1, &gDevice, NULL, NULL, NULL);
 	gCommandQueue = clCreateCommandQueueWithProperties(gContext, gDevice, 0, NULL);
 
-	// �f�o�C�X�p�v���O�������쐬
+	// デバイス用プログラムを作成
 	cl_int ret = 0;
 	cl_program program = compileProgram(gContext, gDevice, "kernel.cl");
 	if (program == NULL) {
 		std::cerr << "compileProgram error" << std::endl;
 	}
-	// �v���O�������J�[�l���ɕϊ�
+	// プログラムをカーネルに変換
 	cl_kernel kernel = createKernel(program, "tallySlimeCunks", &ret);
 	if (ret != CL_SUCCESS) {
 		std::cerr << "error : " << ret << std::endl;
 		return 1;
 	}
 
-	// �f�o�C�X�p���������m��
+	// デバイス用メモリを確保
 	cl_mem gResult = clCreateBuffer(gContext, CL_MEM_READ_WRITE, sizeof(int) * 622 * 622, NULL, &ret);
 	if (ret != 0) {
 		std::cerr << "clCreateBuffer 1" << ret << std::endl;
@@ -83,28 +83,28 @@ int clmain(void) {
 		return 1;
 	}
 
-	// host to dev �������]��
+	// host to dev メモリ転送
 	checkError("clEnqueueWriteBuffer", clEnqueueWriteBuffer(gCommandQueue, gOrigin, CL_TRUE, 0, sizeof(uint64_t) * 6104, set, 0, NULL, NULL));
 
-	// �������I�u�W�F�N�g���J�[�l���֐��̈����ɃZ�b�g
+	// メモリオブジェクトをカーネル関数の引数にセット
 	checkError("clSetKernelArg 1", clSetKernelArg(kernel, 0, sizeof(cl_mem), &gResult));
 	checkError("clSetKernelArg 2", clSetKernelArg(kernel, 1, sizeof(cl_mem), &gOrigin));
 
-	// �J�[�l���̕�����s����ݒ�
+	// カーネルの並列実行数を設定
 	size_t globalWorkSize[2] = { 622, 622 };
 	//size_t localWorkSize[2] = { 2, 2 };
 
-	// �J�[�l���̌Ăяo��
+	// カーネルの呼び出し
 	checkError("clEnqueueNDRangeKernel", clEnqueueNDRangeKernel(gCommandQueue, kernel, 2, NULL, globalWorkSize, NULL, 0, NULL, NULL));
 
-	// dev to host �������]��
+	// dev to host メモリ転送
 	char* result = (char*)malloc(sizeof(char) * 622 * 622);
 	if (result == NULL) {
 		return 1;
 	}
 	checkError("clEnqueueReadBuffer", clEnqueueReadBuffer(gCommandQueue, gResult, CL_TRUE, 0, sizeof(char) * 622 * 622, result, 0, NULL, NULL));
 
-	// �������I�u�W�F�N�g�J��
+	// メモリオブジェクト開放
 	clReleaseMemObject(gResult);
 	clReleaseMemObject(gOrigin);
 
@@ -120,7 +120,7 @@ int clmain(void) {
 }
 
 cl_program compileProgram(cl_context gContext, cl_device_id gDevice, const char* fileName) {
-	// �v���O�����̓ǂݍ���
+	// プログラムの読み込み
 	FILE* fp = NULL;
 	errno_t ret = fopen_s(&fp, fileName, "r");
 	if (ret != 0)
@@ -141,10 +141,10 @@ cl_program compileProgram(cl_context gContext, cl_device_id gDevice, const char*
 	size_t sourceSize = fread(sourceString, sizeof(char), filesize, fp);
 	fclose(fp);
 
-	// �v���O�����̃R���p�C��
+	// プログラムのコンパイル
 	cl_program program = clCreateProgramWithSource(gContext, 1, (const char**)&sourceString, (const size_t*)&sourceSize, NULL);
 	cl_int err = clBuildProgram(program, 1, &gDevice, NULL, NULL, NULL);
-	// �R���p�C���Ɏ��s�����ꍇ�̓G���[���e��\��
+	// コンパイルに失敗した場合はエラー内容を表示
 	if (err != CL_SUCCESS)
 	{
 		size_t logSize;
@@ -166,7 +166,7 @@ int clsample()
 {
 	int platformIdx = 0;
 	int deviceIdx = 0;
-	// �v���b�g�t�H�[���擾
+	// プラットフォーム取得
 	cl_uint platformNumber = 0;
 	cl_platform_id platformIds[8];
 	if (cl_int err = (clGetPlatformIDs(8, platformIds, &platformNumber))) {
@@ -177,7 +177,7 @@ int clsample()
 	cl_platform_id platform = platformIds[platformIdx];
 	showPlatformInfo(platform);
 
-	// �f�o�C�X�擾
+	// デバイス取得
 	cl_uint deviceNumber = 0;
 	cl_device_id deviceIds[8];
 	if (cl_int err = (clGetDeviceIDs(platform, 0xFFFFFFFF, 8, deviceIds, &deviceNumber))) {
