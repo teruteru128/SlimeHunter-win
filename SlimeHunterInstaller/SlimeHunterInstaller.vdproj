@@ -16,79 +16,85 @@
         "Entry"
         {
         "MsmKey" = "8:_00FEC4C7BBC20BC41036857A47570555"
-        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
+        "OwnerKey" = "8:_D9E8C86E92E0438DB7AB48B060F9780D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_0ED28C5CA18ADC7531A6EC1ED5E8DAF8"
-        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_562B15495E2D0E3C6F0444AD32B8107F"
-        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_57135EAA3850E671562BA57E5390145D"
-        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_5861311CA3FFF4F67AA79BD29F0D9CC6"
-        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_6A0EE8E359EF9CA26BB6DA54FBE9A951"
-        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
+        "MsmKey" = "8:_0CCB36696ECB4DBA9CD4CFE703B23016"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
+        "MsmKey" = "8:_0ED28C5CA18ADC7531A6EC1ED5E8DAF8"
+        "OwnerKey" = "8:_D9E8C86E92E0438DB7AB48B060F9780D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_562B15495E2D0E3C6F0444AD32B8107F"
+        "OwnerKey" = "8:_D9E8C86E92E0438DB7AB48B060F9780D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_57135EAA3850E671562BA57E5390145D"
+        "OwnerKey" = "8:_D9E8C86E92E0438DB7AB48B060F9780D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5861311CA3FFF4F67AA79BD29F0D9CC6"
+        "OwnerKey" = "8:_D9E8C86E92E0438DB7AB48B060F9780D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6A0EE8E359EF9CA26BB6DA54FBE9A951"
+        "OwnerKey" = "8:_D9E8C86E92E0438DB7AB48B060F9780D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_AE0D24E62EC4A39BC4D510D5706F28C6"
-        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
+        "OwnerKey" = "8:_D9E8C86E92E0438DB7AB48B060F9780D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_C43036356A90DD19FC6EDA61CCB92901"
-        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
+        "OwnerKey" = "8:_D9E8C86E92E0438DB7AB48B060F9780D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_D36565CA03A331BD9266D759357BEA24"
-        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
+        "OwnerKey" = "8:_D9E8C86E92E0438DB7AB48B060F9780D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D9E8C86E92E0438DB7AB48B060F9780D"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_ED081C94B441845EDB9355461BCB9D48"
-        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
+        "OwnerKey" = "8:_D9E8C86E92E0438DB7AB48B060F9780D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_ED156F6F49C91BE602F0827C61AC1EFC"
-        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
+        "OwnerKey" = "8:_D9E8C86E92E0438DB7AB48B060F9780D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_F912AE28B09193BE466A673426229339"
-        "OwnerKey" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
+        "OwnerKey" = "8:_D9E8C86E92E0438DB7AB48B060F9780D"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -116,6 +122,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -140,6 +154,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
     }
@@ -180,6 +202,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0CCB36696ECB4DBA9CD4CFE703B23016"
+            {
+            "SourcePath" = "8:..\\SlimeHunterMT\\kernel.cl"
+            "TargetName" = "8:kernel.cl"
+            "Tag" = "8:"
+            "Folder" = "8:_53BA3048F9324065BA73233EF893FB96"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0ED28C5CA18ADC7531A6EC1ED5E8DAF8"
@@ -225,7 +267,7 @@
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_57135EAA3850E671562BA57E5390145D"
             {
             "SourcePath" = "8:api-ms-win-crt-convert-l1-1-0.dll"
-            "TargetName" = "8:SlimeHunterMT"
+            "TargetName" = "8:api-ms-win-crt-convert-l1-1-0.dll"
             "Tag" = "8:"
             "Folder" = "8:_53BA3048F9324065BA73233EF893FB96"
             "Condition" = "8:"
@@ -443,7 +485,7 @@
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_53BA3048F9324065BA73233EF893FB96"
             {
-            "DefaultLocation" = "8:[ProgramFilesFolder][Manufacturer]\\[ProductName]"
+            "DefaultLocation" = "8:[ProgramFiles64Folder][Manufacturer]\\[ProductName]"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:FALSE"
             "Condition" = "8:"
@@ -470,7 +512,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SlimeHunter"
         "ProductCode" = "8:{E855FF90-42D9-4B75-852F-283E6036F966}"
-        "PackageCode" = "8:{7831E32F-4DD2-445D-82F6-5AF8681452C0}"
+        "PackageCode" = "8:{FEB16027-BDF2-4B6D-9743-4BE3EAA4CEC3}"
         "UpgradeCode" = "8:{8C40EFBA-C7F0-464B-AD81-32E426E5BEE1}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -491,7 +533,7 @@
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
-        "TargetPlatform" = "3:0"
+        "TargetPlatform" = "3:1"
         "PreBuildEvent" = "8:"
         "PostBuildEvent" = "8:"
         "RunPostBuildEvent" = "3:0"
@@ -590,15 +632,15 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_D5CD2572939C417BA74681849BC88F2D"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_BF9EA1A917374CE98A53BFF0145F8F09"
             {
-            "Name" = "8:Shortcut to %sプライマリ出力 from SlimeHunterMT (Release x64)"
+            "Name" = "8:SlimeHunterMT"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_7CB4110A4D7347D39CD87EC37C002FA5"
+            "Target" = "8:_D9E8C86E92E0438DB7AB48B060F9780D"
             "Folder" = "8:_09C2B6CF6D944DE6BAEC957E78401D6E"
             "WorkingFolder" = "8:_53BA3048F9324065BA73233EF893FB96"
             "Icon" = "8:"
@@ -1003,7 +1045,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_7CB4110A4D7347D39CD87EC37C002FA5"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_D9E8C86E92E0438DB7AB48B060F9780D"
             {
             "SourcePath" = "8:..\\x64\\Release\\SlimeHunterMT.exe"
             "TargetName" = "8:"
