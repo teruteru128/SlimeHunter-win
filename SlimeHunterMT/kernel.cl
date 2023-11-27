@@ -3,7 +3,7 @@ typedef unsigned long uint64_t;
 
 static inline size_t pos(size_t x, size_t z) { return z * 625 + x; }
 
-__kernel void tallySlimeCunks(__global int *result, __global uint64_t *chunks) {
+__kernel void tallySlimeCunks(__global char *result, __global uint64_t *chunks) {
   size_t x = get_global_id(0);
   size_t z = get_global_id(1);
   size_t index = z * 622 + x;

@@ -10,9 +10,9 @@ static int showDeviceInfo(cl_device_id device);
 cl_program compileProgram(cl_context gContext, cl_device_id gDevice, const char* fileName);
 cl_kernel createKernel(cl_program program, const char* kernelName, cl_int* ret);
 
-// bitset‚ğkernel‚Åˆµ‚¦‚é‚æ‚¤‚Éunsigned long long* ‚Å’u‚«Š·‚¦[‚Ì
-// cl‚ÅWŒvŠÖ”‚ğ‘‚«[‚Ì
-// CPU‚ÅWŒvŒ‹‰Ê‚ğ‚Ü‚Æ‚ß`‚Ì
+// bitsetï¿½ï¿½kernelï¿½Åˆï¿½ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½ï¿½unsigned long long* ï¿½Å’uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½
+// clï¿½ÅWï¿½vï¿½Öï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½ï¿½
+// CPUï¿½ÅWï¿½vï¿½ï¿½ï¿½Ê‚ï¿½ï¿½Ü‚Æ‚ß`ï¿½ï¿½
 int clmain(void) {
 	uint64_t* set = (uint64_t*)malloc(sizeof(uint64_t) * 6104);
 	if (set == NULL) {
@@ -42,36 +42,36 @@ int clmain(void) {
 	int deviceIdx = 0;
 	cl_context gContext = NULL;
 	cl_command_queue gCommandQueue = NULL;
-	// ƒvƒ‰ƒbƒgƒtƒH[ƒ€æ“¾
+	// ï¿½vï¿½ï¿½ï¿½bï¿½gï¿½tï¿½Hï¿½[ï¿½ï¿½ï¿½æ“¾
 	cl_uint platformNumber = 0;
 	cl_platform_id platformIds[8];
 	checkError("clGetPlatformIDs", clGetPlatformIDs(8, platformIds, &platformNumber));
 	cl_platform_id platform = platformIds[platformIdx];
 
-	// ƒfƒoƒCƒXæ“¾
+	// ï¿½fï¿½oï¿½Cï¿½Xï¿½æ“¾
 	cl_uint deviceNumber = 0;
 	cl_device_id deviceIds[8];
 	checkError("clGetDeviceIDs", clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, 8, deviceIds, &deviceNumber));
 	cl_device_id gDevice = deviceIds[deviceIdx];
 
-	// ƒRƒ“ƒeƒLƒXƒgiƒƒ‚ƒŠŠm•Û‚È‚Ç‚Ég—pj‚ÆƒRƒ}ƒ“ƒhƒLƒ…[iƒJ[ƒlƒ‹‚ÌÀs‚È‚Ç‚Ég—pj‚ğì¬
+	// ï¿½Rï¿½ï¿½ï¿½eï¿½Lï¿½Xï¿½gï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½Û‚È‚Ç‚Égï¿½pï¿½jï¿½ÆƒRï¿½}ï¿½ï¿½ï¿½hï¿½Lï¿½ï¿½ï¿½[ï¿½iï¿½Jï¿½[ï¿½lï¿½ï¿½ï¿½Ìï¿½ï¿½sï¿½È‚Ç‚Égï¿½pï¿½jï¿½ï¿½ï¿½ì¬
 	gContext = clCreateContext(NULL, 1, &gDevice, NULL, NULL, NULL);
 	gCommandQueue = clCreateCommandQueueWithProperties(gContext, gDevice, 0, NULL);
 
-	// ƒfƒoƒCƒX—pƒvƒƒOƒ‰ƒ€‚ğì¬
+	// ï¿½fï¿½oï¿½Cï¿½Xï¿½pï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì¬
 	cl_int ret = 0;
 	cl_program program = compileProgram(gContext, gDevice, "kernel.cl");
 	if (program == NULL) {
 		std::cerr << "compileProgram error" << std::endl;
 	}
-	// ƒvƒƒOƒ‰ƒ€‚ğƒJ[ƒlƒ‹‚É•ÏŠ·
+	// ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½[ï¿½lï¿½ï¿½ï¿½É•ÏŠï¿½
 	cl_kernel kernel = createKernel(program, "tallySlimeCunks", &ret);
 	if (ret != CL_SUCCESS) {
 		std::cerr << "error : " << ret << std::endl;
 		return 1;
 	}
 
-	// ƒfƒoƒCƒX—pƒƒ‚ƒŠ‚ğŠm•Û
+	// ï¿½fï¿½oï¿½Cï¿½Xï¿½pï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½ï¿½
 	cl_mem gResult = clCreateBuffer(gContext, CL_MEM_READ_WRITE, sizeof(int) * 622 * 622, NULL, &ret);
 	if (ret != 0) {
 		std::cerr << "clCreateBuffer 1" << ret << std::endl;
@@ -83,28 +83,28 @@ int clmain(void) {
 		return 1;
 	}
 
-	// host to dev ƒƒ‚ƒŠ“]‘—
+	// host to dev ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½
 	checkError("clEnqueueWriteBuffer", clEnqueueWriteBuffer(gCommandQueue, gOrigin, CL_TRUE, 0, sizeof(uint64_t) * 6104, set, 0, NULL, NULL));
 
-	// ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒg‚ğƒJ[ƒlƒ‹ŠÖ”‚Ìˆø”‚ÉƒZƒbƒg
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ï¿½Jï¿½[ï¿½lï¿½ï¿½ï¿½Öï¿½ï¿½Ìˆï¿½ï¿½ï¿½ï¿½ÉƒZï¿½bï¿½g
 	checkError("clSetKernelArg 1", clSetKernelArg(kernel, 0, sizeof(cl_mem), &gResult));
 	checkError("clSetKernelArg 2", clSetKernelArg(kernel, 1, sizeof(cl_mem), &gOrigin));
 
-	// ƒJ[ƒlƒ‹‚Ì•À—ñÀs”‚ğİ’è
+	// ï¿½Jï¿½[ï¿½lï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½İ’ï¿½
 	size_t globalWorkSize[2] = { 622, 622 };
 	//size_t localWorkSize[2] = { 2, 2 };
 
-	// ƒJ[ƒlƒ‹‚ÌŒÄ‚Ño‚µ
+	// ï¿½Jï¿½[ï¿½lï¿½ï¿½ï¿½ÌŒÄ‚Ñoï¿½ï¿½
 	checkError("clEnqueueNDRangeKernel", clEnqueueNDRangeKernel(gCommandQueue, kernel, 2, NULL, globalWorkSize, NULL, 0, NULL, NULL));
 
-	// dev to host ƒƒ‚ƒŠ“]‘—
-	int* result = (int*)malloc(sizeof(int) * 622 * 622);
+	// dev to host ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½
+	char* result = (char*)malloc(sizeof(char) * 622 * 622);
 	if (result == NULL) {
 		return 1;
 	}
-	checkError("clEnqueueReadBuffer", clEnqueueReadBuffer(gCommandQueue, gResult, CL_TRUE, 0, sizeof(int) * 622 * 622, result, 0, NULL, NULL));
+	checkError("clEnqueueReadBuffer", clEnqueueReadBuffer(gCommandQueue, gResult, CL_TRUE, 0, sizeof(char) * 622 * 622, result, 0, NULL, NULL));
 
-	// ƒƒ‚ƒŠƒIƒuƒWƒFƒNƒgŠJ•ú
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Jï¿½ï¿½
 	clReleaseMemObject(gResult);
 	clReleaseMemObject(gOrigin);
 
@@ -120,7 +120,7 @@ int clmain(void) {
 }
 
 cl_program compileProgram(cl_context gContext, cl_device_id gDevice, const char* fileName) {
-	// ƒvƒƒOƒ‰ƒ€‚Ì“Ç‚İ‚İ
+	// ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½Ì“Ç‚İï¿½ï¿½ï¿½
 	FILE* fp = NULL;
 	errno_t ret = fopen_s(&fp, fileName, "r");
 	if (ret != 0)
@@ -141,10 +141,10 @@ cl_program compileProgram(cl_context gContext, cl_device_id gDevice, const char*
 	size_t sourceSize = fread(sourceString, sizeof(char), filesize, fp);
 	fclose(fp);
 
-	// ƒvƒƒOƒ‰ƒ€‚ÌƒRƒ“ƒpƒCƒ‹
+	// ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ÌƒRï¿½ï¿½ï¿½pï¿½Cï¿½ï¿½
 	cl_program program = clCreateProgramWithSource(gContext, 1, (const char**)&sourceString, (const size_t*)&sourceSize, NULL);
 	cl_int err = clBuildProgram(program, 1, &gDevice, NULL, NULL, NULL);
-	// ƒRƒ“ƒpƒCƒ‹‚É¸”s‚µ‚½ê‡‚ÍƒGƒ‰[“à—e‚ğ•\¦
+	// ï¿½Rï¿½ï¿½ï¿½pï¿½Cï¿½ï¿½ï¿½Éï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍƒGï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½eï¿½ï¿½\ï¿½ï¿½
 	if (err != CL_SUCCESS)
 	{
 		size_t logSize;
@@ -166,7 +166,7 @@ int clsample()
 {
 	int platformIdx = 0;
 	int deviceIdx = 0;
-	// ƒvƒ‰ƒbƒgƒtƒH[ƒ€æ“¾
+	// ï¿½vï¿½ï¿½ï¿½bï¿½gï¿½tï¿½Hï¿½[ï¿½ï¿½ï¿½æ“¾
 	cl_uint platformNumber = 0;
 	cl_platform_id platformIds[8];
 	if (cl_int err = (clGetPlatformIDs(8, platformIds, &platformNumber))) {
@@ -177,7 +177,7 @@ int clsample()
 	cl_platform_id platform = platformIds[platformIdx];
 	showPlatformInfo(platform);
 
-	// ƒfƒoƒCƒXæ“¾
+	// ï¿½fï¿½oï¿½Cï¿½Xï¿½æ“¾
 	cl_uint deviceNumber = 0;
 	cl_device_id deviceIds[8];
 	if (cl_int err = (clGetDeviceIDs(platform, 0xFFFFFFFF, 8, deviceIds, &deviceNumber))) {
