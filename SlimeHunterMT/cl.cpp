@@ -1,9 +1,9 @@
 
+#include "cl.h"
 #include "pch.h"
+#include "search.hpp"
 #include <CL/opencl.h>
 #include <stdio.h>
-#include "cl.h"
-#include "search.hpp"
 int clsample();
 static void showPlatformInfo(cl_platform_id platform);
 static int showDeviceInfo(cl_device_id device);

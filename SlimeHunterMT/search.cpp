@@ -1,22 +1,22 @@
 
 #define CL_TARGET_OPENCL_VERSION 300
+#include "mcSlimeChunkOracle.h"
 #include "pch.h"
 #include "rnd.h"
-#include "mcSlimeChunkOracle.h"
 #include "search.hpp"
+#include <algorithm>
+#include <atomic>
+#include <bitset>
+#include <CL/cl.h>
+#include <inttypes.h>
+#include <iostream>
+#include <math.h>
+#include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <inttypes.h>
-#include <time.h>
-#include <math.h>
-#include <bitset>
-#include <atomic>
-#include <algorithm>
-#include <iostream>
 #include <string>
-#include <omp.h>
-#include <CL/cl.h>
+#include <string.h>
+#include <time.h>
 using std::bitset;
 
 bool extracted(bitset<625 * 625>* set, int x, int z);
