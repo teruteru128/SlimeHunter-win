@@ -105,7 +105,6 @@ int mpsample(void) {
 }
 
 Config::Config() {
-	seed = 0ULL;
 }
 Config::~Config() {}
 
