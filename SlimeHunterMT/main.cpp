@@ -23,6 +23,7 @@
 #include <CL/cl.h>
 #include "main.h"
 #include "cl.h"
+#include <chrono>
 
 static void handler(int signum) {
 	cont = 0;
@@ -39,32 +40,37 @@ int main(int argc, char* argv[], char* env[])
 	if (argc > 1 && strcmp(argv[1], "--cl") == 0) {
 		return clsample();
 	}
-	if (argc > 1 && strcmp(argv[1], "--clmain") == 0) {
-		return clmain();
-	}
 
 	// スレッド数と初期シードを設定
-	unsigned long long start = 0;
 	int threadNum = 1;
+	int clmainflag = 0;
+	uint64_t start = 0;
 	for (int i = 1; i < argc; i++) {
 		if ((strcmp(argv[i], "--thread") == 0 || strcmp(argv[i], "-t") == 0) && i + 1 < argc) {
 			threadNum = (int)strtoull(argv[i + 1], NULL, 10);
 		}
 		else if ((strcmp(argv[i], "--start") || strcmp(argv[i], "-s") == 0) && i + 1 < argc) {
 			start = strtoull(argv[i + 1], NULL, 10);
+			seed = start;
+		}
+		else if (strcmp(argv[1], "--clmain") == 0) {
+			clmainflag = 1;
 		}
 	}
 	// ctrl-cで中断するためのハンドラーを設定(フラグを降ろす用)
 	if (signal(SIGINT, handler) == SIG_ERR) {
 		return 1;
 	}
-	std::cout << "starting seed: " << start << std::endl;
+	if (clmainflag) {
+		return clmain();
+	}
+	std::cout << "starting seed: " << seed << std::endl;
 	std::cout << "starting thread: " << threadNum << std::endl;
 
 	Config config;
-	seed = start;
 
 	std::vector<std::future<Result*>> futures(threadNum);
+	auto startTime = std::chrono::steady_clock::now();
 	for (int i = 0; i < threadNum; i++) {
 		futures[i] = std::async(task, &config);
 	}
@@ -78,9 +84,15 @@ int main(int argc, char* argv[], char* env[])
 			isAllNull = 0;
 		}
 	}
+	auto finishTime = std::chrono::steady_clock::now();
 	if (isAllNull) {
 		std::cout << "見つかりませんでした" << std::endl;
 	}
+	auto seeddiff = seed - start;
+	auto timediff = std::chrono::duration_cast<std::chrono::nanoseconds>(finishTime - startTime).count() / 1e9;
+	std::cout << "計算時間: " << timediff << " 秒" << std::endl;
+	std::cout << "進捗: " << seeddiff << " seeds" << std::endl;
+	std::cout << "計算効率: " << seeddiff / timediff << " seeds/seconds" << std::endl;
 	std::cout << "次回開始シード: " << seed << std::endl;
 	system("PAUSE");
 	return EXIT_SUCCESS;
