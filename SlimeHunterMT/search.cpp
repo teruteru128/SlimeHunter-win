@@ -19,7 +19,7 @@
 #include <time.h>
 using std::bitset;
 
-bool extracted(bitset<625 * 625>* set, int x, int z);
+static bool extracted(bitset<625 * 625>* set, int x, int z);
 
 volatile std::atomic_int cont = 1;
 volatile std::atomic_uint64_t seed;
@@ -67,9 +67,6 @@ Result* task(Config* config) {
 			std::cout << "見つけたー！[" << worldSeed << "]" << std::endl;
 			result = new Result(worldSeed, x - 312, z - 312);
 		}
-		if ((worldSeed & 0x3fffL) == 0x3fffL) {
-			std::cout << "done: " << worldSeed << std::endl;
-		}
 	}
 
 	return result;
@@ -78,7 +75,7 @@ Result* task(Config* config) {
 // TODO &&で繋いだ短絡評価と&で繋いだ投機的実行でどっちのほうが早くなるんだろうか->ベンチマーク
 // TODO ベンチマーク->特定のシードではなくランダムなシードを使って計測されなければならない
 // TODO 全スレッドで1シードを検査すべきなのか、各スレッドでそれぞれ別のシードを探索すべきなのか(計算粒度の問題)
-inline bool extracted(std::bitset<625 * 625>* set, int x, int z) {
+static inline bool extracted(bitset<625 * 625>* set, int x, int z) {
 	return set->test((z + 3) * 625 + x + 0) && set->test((z + 3) * 625 + x + 1) && set->test((z + 3) * 625 + x + 2) && set->test((z + 3) * 625 + x + 3) &&
 		set->test((z + 2) * 625 + x + 0) && set->test((z + 2) * 625 + x + 1) && set->test((z + 2) * 625 + x + 2) && set->test((z + 2) * 625 + x + 3) &&
 		set->test((z + 1) * 625 + x + 0) && set->test((z + 1) * 625 + x + 1) && set->test((z + 1) * 625 + x + 2) && set->test((z + 1) * 625 + x + 3) &&

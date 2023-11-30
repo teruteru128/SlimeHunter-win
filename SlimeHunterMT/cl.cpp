@@ -7,8 +7,7 @@
 int clsample();
 static void showPlatformInfo(cl_platform_id platform);
 static int showDeviceInfo(cl_device_id device);
-cl_program compileProgram(cl_context gContext, cl_device_id gDevice, const char* fileName);
-cl_kernel createKernel(cl_program program, const char* kernelName, cl_int* ret);
+static cl_program compileProgram(cl_context gContext, cl_device_id gDevice, const char* fileName);
 
 // bitsetをkernelで扱えるようにunsigned long long* で置き換えーの
 // clで集計関数を書きーの
@@ -41,7 +40,7 @@ int clmain(void) {
 		std::cerr << "compileProgram error" << std::endl;
 	}
 	// プログラムをカーネルに変換
-	cl_kernel kernel = createKernel(program, "tallySlimeCunks", &ret);
+	cl_kernel kernel = clCreateKernel(program, "tallySlimeCunks", &ret);
 	if (ret != CL_SUCCESS) {
 		std::cerr << "error : " << ret << std::endl;
 		return 1;
@@ -71,10 +70,11 @@ int clmain(void) {
 	size_t pos = 0;
 	size_t wordIndex = 0;
 	size_t shift = 0;
-	int com = 1;
 	// カーネルの並列実行数を設定
 	size_t globalWorkSize[2] = { 622, 622 };
-	for (uint64_t worldSeed = 1767368743ULL; com; worldSeed++) {
+	uint64_t worldSeed = 0;
+	while (cont) {
+		worldSeed = seed++;
 		for (z = 0; z < 625; z++) {
 			for (x = 0; x < 625; x++)
 			{
@@ -106,8 +106,8 @@ int clmain(void) {
 		for (z = 0; z < 622; z++) {
 			for (x = 0; x < 622; x++) {
 				if (result[z * 622 + x] >= 16) {
+					cont = 0;
 					std::cout << "found!: " << worldSeed << ", " << x - 312 << ", " << z - 312 << std::endl;
-					com = 0;
 				}
 			}
 		}
@@ -128,7 +128,7 @@ int clmain(void) {
 	return 0;
 }
 
-cl_program compileProgram(cl_context gContext, cl_device_id gDevice, const char* fileName) {
+static cl_program compileProgram(cl_context gContext, cl_device_id gDevice, const char* fileName) {
 	// プログラムの読み込み
 	FILE* fp = NULL;
 	errno_t ret = fopen_s(&fp, fileName, "r");
@@ -165,10 +165,6 @@ cl_program compileProgram(cl_context gContext, cl_device_id gDevice, const char*
 	}
 	free(sourceString);
 	return program;
-}
-
-cl_kernel createKernel(cl_program program, const char* kernelName, cl_int* ret) {
-	return clCreateKernel(program, kernelName, ret);
 }
 
 int clsample()
