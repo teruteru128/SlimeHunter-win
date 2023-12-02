@@ -19,6 +19,8 @@ public:
 	Result(uint64_t worldSeed, int x, int z);
 	~Result();
 	uint64_t getWorldSeed();
+	int getX();
+	int getZ();
 private:
 	uint64_t worldSeed;
 	int x;

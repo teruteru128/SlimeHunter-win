@@ -79,7 +79,7 @@ int main(int argc, char* argv[], char* env[])
 	for (int i = 0; i < threadNum; i++) {
 		r = futures[i].get();
 		if (r != NULL) {
-			std::cout << "見つかりました" << r->getWorldSeed() << std::endl;
+			std::cout << "見つかりました" << r->getWorldSeed() << ", " << r->getX() << ", " << r->getZ() << std::endl;
 			delete r;
 			isAllNull = 0;
 		}
