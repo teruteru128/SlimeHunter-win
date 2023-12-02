@@ -24,13 +24,14 @@ static bool extracted(bitset<625 * 625>* set, int x, int z);
 volatile std::atomic_int cont = 1;
 volatile std::atomic_uint64_t seed;
 
-static inline int lineSearch(bitset<625 * 625>* set, int tempZ0);
-
 Result* task(Config* config) {
-	bitset<625 * 625>* set = new bitset<625 * 625>();
+	auto set = new bitset<625 * 625>();
+	int lineCombo = 0;
+	int lineComboMax = 1;
 	int x = 0;
 	int z = 0;
 	int tempZ0;
+	int tempZ1;
 	uint64_t worldSeed = 0;
 	bool found = false;
 	while (cont) {
@@ -42,11 +43,34 @@ Result* task(Config* config) {
 		}
 		found = false;
 		for (z = 621, tempZ0 = 388125; z >= 0; z--, tempZ0 -= 625) {
+			lineCombo = 0;
+			lineComboMax = 1;
+			// 時間と空間のトレードオフ
+			// 連続でスライムチャンクが並んでる個数を数える
+			// ビット演算でスライムチャンクが4つ連続しているかだけ返す
+			for (x = 0; lineComboMax && x < 625; x++) {
+				lineCombo = ((lineCombo << 1) | (int)set->test(tempZ0 + x)) & 15;
+				lineComboMax &= lineCombo != 15;
+			}
 			// 4個未満ならスキップ
-			if (lineSearch(set, tempZ0))
+			if (lineComboMax)
 			{
 				z -= 3;
 				tempZ0 -= 1875;
+				continue;
+			}
+			tempZ1 = tempZ0 + 625;
+			lineCombo = 0;
+			lineComboMax = 1;
+			for (x = 0; lineComboMax && x < 625; x++) {
+				lineCombo = ((lineCombo << 1) | (int)set->test(tempZ1 + x)) & 15;
+				lineComboMax &= lineCombo != 15;
+			}
+			// 4個未満ならスキップ
+			if (lineComboMax)
+			{
+				z -= 2;
+				tempZ0 -= 1250;
 				continue;
 			}
 			for (x = 621; x >= 0; x--)
@@ -72,20 +96,6 @@ static inline bool extracted(bitset<625 * 625>* set, int x, int z) {
 		set->test((z + 2) * 625 + x + 0) && set->test((z + 2) * 625 + x + 1) && set->test((z + 2) * 625 + x + 2) && set->test((z + 2) * 625 + x + 3) &&
 		set->test((z + 1) * 625 + x + 0) && set->test((z + 1) * 625 + x + 1) && set->test((z + 1) * 625 + x + 2) && set->test((z + 1) * 625 + x + 3) &&
 		set->test((z + 0) * 625 + x + 0) && set->test((z + 0) * 625 + x + 1) && set->test((z + 0) * 625 + x + 2) && set->test((z + 0) * 625 + x + 3);
-}
-
-// 時間と空間のトレードオフ
-// 連続でスライムチャンクが並んでる個数を数える
-// ビット演算でスライムチャンクが4つ連続しているかだけ返す
-inline int lineSearch(bitset<625 * 625>* set, int tempZ0)
-{
-	int lineCombo = 0;
-	int lineComboMax = 1;
-	for (int x = 0; x < 625; x++) {
-		lineCombo = ((lineCombo << 1) | (int)set->test(tempZ0 + x)) & 15;
-		lineComboMax &= lineCombo != 15;
-	}
-	return lineComboMax;
 }
 
 int mpsample(void) {
