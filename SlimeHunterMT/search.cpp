@@ -45,14 +45,14 @@ Result* task(Config* config) {
 		for (z = 621, tempZ0 = 388125; z >= 0; z--, tempZ0 -= 625) {
 			// 時間と空間のトレードオフ
 			// 連続でスライムチャンクが並んでる個数を数える
-			lineComboMax = 0;
+			lineComboMax = 1;
 			lineCombo = 0;
 			for (x = 0; x < 625; x++) {
-				lineCombo = (set->test(tempZ0 + x)) ? (lineCombo + 1) : 0;
-				lineComboMax = std::max(lineComboMax, lineCombo);
+				lineCombo = ((lineCombo << 1) | (int)set->test(tempZ0 + x)) & 15;
+				lineComboMax &= lineCombo != 15;
 			}
 			// 4個未満ならスキップ
-			if (lineComboMax < 4)
+			if (lineComboMax)
 			{
 				z -= 3;
 				continue;
