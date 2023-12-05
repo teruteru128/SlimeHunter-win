@@ -5,7 +5,6 @@
 
 #include <stdint.h>
 #include "pch.h"
-#include "internal_random.h"
 
 #ifdef __cplusplus
 extern "C" {

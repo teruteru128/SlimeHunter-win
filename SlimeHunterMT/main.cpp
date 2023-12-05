@@ -2,8 +2,21 @@
 //
 
 #include "pch.h"
+#define CL_TARGET_OPENCL_VERSION 300
+#include "cl.hpp"
+#include "main.hpp"
+#include "rnd.h"
+#include "search.hpp"
+#include "omp.hpp"
+#include <chrono>
+#include <crtdbg.h>
+#include <ctime>
+#include <CL/opencl.h>
+#include <future>
 #include <iostream>
 #include <random>
+#include <stdlib.h>
+#include <signal.h>
 #include <thread>
 #ifdef __linux
 #include <unistd.h>
@@ -13,17 +26,6 @@
 #elif defined(_WIN32) || defined(_WIN64)
 #include <Windows.h>
 #endif
-#include "rnd.h"
-#include "search.hpp"
-#include <crtdbg.h>
-#include <ctime>
-#include <stdlib.h>
-#include <signal.h>
-#include <future>
-#include <CL/cl.h>
-#include "main.h"
-#include "cl.h"
-#include <chrono>
 
 static void handler(int signum) {
 	cont = 0;

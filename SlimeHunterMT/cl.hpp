@@ -5,7 +5,7 @@
 #define checkError(label, openclFunction)          \
     if (cl_int err = (openclFunction))      \
     {                                       \
-        std::cerr << "error [" << label << "]: " << err << std::endl;        \
+        std::cerr << "error ["  label "]: " << err << std::endl;        \
         return openclFunction;\
     }
 

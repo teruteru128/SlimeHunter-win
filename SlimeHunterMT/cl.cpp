@@ -1,6 +1,7 @@
 
-#include "cl.h"
 #include "pch.h"
+#define CL_TARGET_OPENCL_VERSION 300
+#include "cl.hpp"
 #include "search.hpp"
 #include <CL/opencl.h>
 #include <stdio.h>
@@ -67,6 +68,7 @@ int clmain(void) {
 	}
 	int x = 0;
 	int z = 0;
+	size_t tempZ0 = 0;
 	size_t pos = 0;
 	size_t wordIndex = 0;
 	size_t shift = 0;
@@ -75,10 +77,10 @@ int clmain(void) {
 	uint64_t worldSeed = 0;
 	while (cont) {
 		worldSeed = seed++;
-		for (z = 0; z < 625; z++) {
+		for (z = 0, tempZ0 = 0; z < 625; z++, tempZ0 += 625) {
 			for (x = 0; x < 625; x++)
 			{
-				pos = (z * 625) + x;
+				pos = tempZ0 + x;
 				wordIndex = pos >> 6;
 				shift = pos & 0x3f;
 				if (isSlimeChunk(worldSeed, x - 312, z - 312)) {
