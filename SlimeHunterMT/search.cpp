@@ -29,59 +29,64 @@ Result* task(Config* config) {
 	int x = 0;
 	int z = 0;
 	size_t tempZ0;
-	size_t tempZ0_r;
 	size_t pos = 0;
 	uint64_t worldSeed = 0;
-	bool found = false;
 	while (cont) {
 		worldSeed = seed++;
-		for (z = 0, tempZ0 = 0; z < 625; z++, tempZ0 += 625) {
-			for (x = 0; x < 625; x++) {
-				set->set(tempZ0 + x, isSlimeChunk(worldSeed, x - 312, z - 312));
-			}
-		}
-		found = false;
-		for (tempZ0 = 0; tempZ0 < 388125; tempZ0 += 625) {
-			tempZ0_r = 388125 - tempZ0;
+		for (z = 621, tempZ0 = 388125; z >= 0; z--, tempZ0 -= 625) {
 			lineCombo = 0;
 			lineComboMax = 1;
 			// 時間と空間のトレードオフ
 			// 連続でスライムチャンクが並んでる個数を数える
 			// ビット演算でスライムチャンクが4つ連続しているかだけ返す
-			for (x = 0; lineComboMax && x < 625; x++) {
-				lineCombo = ((lineCombo << 1) | (int)set->test(tempZ0_r + x)) & 15;
+			for (x = 0; x < 625; x++) {
+				lineCombo = ((lineCombo << 1) | (int)((*set)[tempZ0 + x] = isSlimeChunk(worldSeed, x - 312, z - 312))) & 15;
 				lineComboMax &= lineCombo != 15;
 			}
 			// 4個未満ならスキップ
 			if (lineComboMax)
 			{
-				tempZ0 += 1875;
+				z -= 3;
+				tempZ0 -= 1875;
 				continue;
 			}
 			for (x = 621; x >= 0; x--)
 			{
-				pos = tempZ0_r + x;
-				if (!(set->test(pos + 1875) && set->test(pos + 1250) && set->test(pos + 625) && set->test(pos))) {
+				pos = tempZ0 + x;
+				if (!set->test(pos)) {
 					x -= 3;
 					continue;
 				}
-				if (!(set->test(pos + 1876) && set->test(pos + 1251) && set->test(pos + 626) && set->test(pos + 1))) {
+				if (!set->test(pos + 1)) {
 					x -= 2;
 					continue;
 				}
-				if (!(set->test(pos + 1877) && set->test(pos + 1252) && set->test(pos + 627) && set->test(pos + 2))) {
+				if (!set->test(pos + 2)) {
 					x -= 1;
 					continue;
 				}
-				if (!(set->test(pos + 1878) && set->test(pos + 1253) && set->test(pos + 628) && set->test(pos + 3))) {
+				if (!set->test(pos + 3)) {
 					continue;
 				}
-				if (extracted(set, pos)) {
-					cont = 0;
-					std::cout << "見つけたー！[" << worldSeed << "]" << std::endl;
-					// delete set;
-					return new Result(worldSeed, x - 312, (int)(tempZ0_r / 625) - 312);
+				if (!(isSlimeChunk(worldSeed, x - 312, z - 312 + 1) && isSlimeChunk(worldSeed, x - 312, z - 312 + 2) && isSlimeChunk(worldSeed, x - 312, z - 312 + 3))) {
+					x -= 3;
+					continue;
 				}
+				if (!(isSlimeChunk(worldSeed, x - 312 + 1, z - 312 + 1) && isSlimeChunk(worldSeed, x - 312 + 1, z - 312 + 2) && isSlimeChunk(worldSeed, x - 312 + 1, z - 312 + 3))) {
+					x -= 2;
+					continue;
+				}
+				if (!(isSlimeChunk(worldSeed, x - 312 + 2, z - 312 + 1) && isSlimeChunk(worldSeed, x - 312 + 2, z - 312 + 2) && isSlimeChunk(worldSeed, x - 312 + 2, z - 312 + 3))) {
+					x -= 1;
+					continue;
+				}
+				if (!(isSlimeChunk(worldSeed, x - 312 + 3, z - 312 + 1) && isSlimeChunk(worldSeed, x - 312 + 3, z - 312 + 2) && isSlimeChunk(worldSeed, x - 312 + 3, z - 312 + 3))) {
+					continue;
+				}
+				cont = 0;
+				std::cout << "見つけたー！[" << worldSeed << "]" << std::endl;
+				// delete set;
+				return new Result(worldSeed, (x - 312) << 4, (z - 312) << 4);
 			}
 		}
 	}
