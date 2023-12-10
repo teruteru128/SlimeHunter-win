@@ -33,54 +33,63 @@ Result* task(Config* config) {
 	uint64_t worldSeed = 0;
 	while (cont) {
 		worldSeed = seed++;
-		for (z = 621, tempZ0 = 388125; z >= 0; z--, tempZ0 -= 625) {
+		for (z = 620, tempZ0 = 387500; z >= 0; z--, tempZ0 -= 625) {
 			lineCombo = 0;
 			lineComboMax = 1;
 			// 時間と空間のトレードオフ
 			// 連続でスライムチャンクが並んでる個数を数える
 			// ビット演算でスライムチャンクが4つ連続しているかだけ返す
 			for (x = 0; x < 625; x++) {
-				lineCombo = ((lineCombo << 1) | (int)((*set)[tempZ0 + x] = isSlimeChunk(worldSeed, x - 312, z - 312))) & 15;
-				lineComboMax &= lineCombo != 15;
+				lineCombo = ((lineCombo << 1) | (int)((*set)[tempZ0 + x] = isSlimeChunk(worldSeed, x - 312, z - 312))) & 31;
+				lineComboMax &= lineCombo != 31;
 			}
 			// 4個未満ならスキップ
 			if (lineComboMax)
 			{
-				z -= 3;
-				tempZ0 -= 1875;
+				z -= 4;
+				tempZ0 -= 2500;
 				continue;
 			}
-			for (x = 621; x >= 0; x--)
+			for (x = 620; x >= 0; x--)
 			{
 				pos = tempZ0 + x;
 				if (!set->test(pos)) {
-					x -= 3;
+					x -= 4;
 					continue;
 				}
 				if (!set->test(pos + 1)) {
-					x -= 2;
-					continue;
-				}
-				if (!set->test(pos + 2)) {
-					x -= 1;
-					continue;
-				}
-				if (!set->test(pos + 3)) {
-					continue;
-				}
-				if (!(isSlimeChunk(worldSeed, x - 312, z - 312 + 1) && isSlimeChunk(worldSeed, x - 312, z - 312 + 2) && isSlimeChunk(worldSeed, x - 312, z - 312 + 3))) {
 					x -= 3;
 					continue;
 				}
-				if (!(isSlimeChunk(worldSeed, x - 312 + 1, z - 312 + 1) && isSlimeChunk(worldSeed, x - 312 + 1, z - 312 + 2) && isSlimeChunk(worldSeed, x - 312 + 1, z - 312 + 3))) {
+				if (!set->test(pos + 2)) {
 					x -= 2;
 					continue;
 				}
-				if (!(isSlimeChunk(worldSeed, x - 312 + 2, z - 312 + 1) && isSlimeChunk(worldSeed, x - 312 + 2, z - 312 + 2) && isSlimeChunk(worldSeed, x - 312 + 2, z - 312 + 3))) {
+				if (!set->test(pos + 3)) {
 					x -= 1;
 					continue;
 				}
-				if (!(isSlimeChunk(worldSeed, x - 312 + 3, z - 312 + 1) && isSlimeChunk(worldSeed, x - 312 + 3, z - 312 + 2) && isSlimeChunk(worldSeed, x - 312 + 3, z - 312 + 3))) {
+				if (!set->test(pos + 4)) {
+					continue;
+				}
+				if (!(isSlimeChunk(worldSeed, x - 312, z - 312 + 1) && isSlimeChunk(worldSeed, x - 312, z - 312 + 2) && isSlimeChunk(worldSeed, x - 312, z - 312 + 3) && isSlimeChunk(worldSeed, x - 312, z - 312 + 4))) {
+					x -= 4;
+					continue;
+				}
+				if (!(isSlimeChunk(worldSeed, x - 312 + 1, z - 312 + 1) && isSlimeChunk(worldSeed, x - 312 + 1, z - 312 + 2) && isSlimeChunk(worldSeed, x - 312 + 1, z - 312 + 3) && isSlimeChunk(worldSeed, x - 312 + 1, z - 312 + 4))) {
+					x -= 3;
+					continue;
+				}
+				if (!(isSlimeChunk(worldSeed, x - 312 + 2, z - 312 + 1) && isSlimeChunk(worldSeed, x - 312 + 2, z - 312 + 2) && isSlimeChunk(worldSeed, x - 312 + 2, z - 312 + 3) && isSlimeChunk(worldSeed, x - 312 + 2, z - 312 + 4))) {
+					x -= 2;
+					continue;
+				}
+				if (!(isSlimeChunk(worldSeed, x - 312 + 3, z - 312 + 1) && isSlimeChunk(worldSeed, x - 312 + 3, z - 312 + 2) && isSlimeChunk(worldSeed, x - 312 + 3, z - 312 + 3) && isSlimeChunk(worldSeed, x - 312 + 3, z - 312 + 4))) {
+					x -= 1;
+					continue;
+				}
+				if (!(isSlimeChunk(worldSeed, x - 312 + 4, z - 312 + 1) && isSlimeChunk(worldSeed, x - 312 + 4, z - 312 + 2) && isSlimeChunk(worldSeed, x - 312 + 4, z - 312 + 3) && isSlimeChunk(worldSeed, x - 312 + 4, z - 312 + 4))) {
+					std::cout << "惜しい!" << worldSeed << ", " << (x - 312) << 4 << ", " << (z - 312) << 4 << std::endl;
 					continue;
 				}
 				cont = 0;
