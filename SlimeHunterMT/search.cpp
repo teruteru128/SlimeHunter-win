@@ -89,7 +89,7 @@ Result* task(Config* config) {
 					continue;
 				}
 				if (!(isSlimeChunk(worldSeed, x - 312 + 4, z - 312 + 1) && isSlimeChunk(worldSeed, x - 312 + 4, z - 312 + 2) && isSlimeChunk(worldSeed, x - 312 + 4, z - 312 + 3) && isSlimeChunk(worldSeed, x - 312 + 4, z - 312 + 4))) {
-					std::cout << "É‚µ‚¢!" << worldSeed << ", " << (x - 312) << 4 << ", " << (z - 312) << 4 << std::endl;
+					std::cout << "É‚µ‚¢!" << worldSeed << ", " << ((x - 312) << 4) << ", " << ((z - 312) << 4) << std::endl;
 					continue;
 				}
 				cont = 0;
