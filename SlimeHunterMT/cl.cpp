@@ -5,6 +5,7 @@
 #include "search.hpp"
 #include <CL/opencl.h>
 #include <stdio.h>
+#include <atomic>
 int clsample();
 static void showPlatformInfo(cl_platform_id platform);
 static int showDeviceInfo(cl_device_id device);
@@ -48,21 +49,17 @@ int clmain(void) {
 	}
 
 	// デバイス用メモリを確保
-	cl_mem gResult = clCreateBuffer(gContext, CL_MEM_READ_WRITE, sizeof(int) * 622 * 622, NULL, &ret);
+	cl_mem gResult = clCreateBuffer(gContext, CL_MEM_READ_WRITE, sizeof(char) * 1000 * 1000 * 1000, NULL, &ret);
 	if (ret != 0) {
 		std::cerr << "clCreateBuffer 1" << ret << std::endl;
 		return 1;
 	}
-	cl_mem gOrigin = clCreateBuffer(gContext, CL_MEM_READ_WRITE, sizeof(uint64_t) * 6104, NULL, &ret);
+	cl_mem gOrigin = clCreateBuffer(gContext, CL_MEM_READ_WRITE, sizeof(uint64_t), NULL, &ret);
 	if (ret != 0) {
 		std::cerr << "clCreateBuffer 2" << ret << std::endl;
 		return 1;
 	}
-	uint64_t* set = (uint64_t*)malloc(sizeof(uint64_t) * 6104);
-	if (set == NULL) {
-		return 1;
-	}
-	char* result = (char*)malloc(sizeof(char) * 622 * 622);
+	char* result = (char*)malloc(sizeof(char) * 1000 * 1000 * 1000);
 	if (result == NULL) {
 		return 1;
 	}
@@ -73,51 +70,33 @@ int clmain(void) {
 	size_t wordIndex = 0;
 	size_t shift = 0;
 	// カーネルの並列実行数を設定
-	size_t globalWorkSize[2] = { 622, 622 };
+	size_t globalWorkSize[3] = { 32, 32, 32 };
+	size_t num = globalWorkSize[0] * globalWorkSize[1] * globalWorkSize[2];
 	uint64_t worldSeed = 0;
 	while (cont) {
-		worldSeed = seed++;
-		for (z = 0, tempZ0 = 0; z < 625; z++, tempZ0 += 625) {
-			for (x = 0; x < 625; x++)
-			{
-				pos = tempZ0 + x;
-				wordIndex = pos >> 6;
-				shift = pos & 0x3f;
-				if (isSlimeChunk(worldSeed, x - 312, z - 312)) {
-					set[wordIndex] |= (1ULL << shift);
-				}
-				else {
-					set[wordIndex] &= ~(1ULL << shift);
-				}
-			}
-		}
+		worldSeed = std::atomic_fetch_add(&seed, num);
 
 		// host to dev メモリ転送
-		checkError("clEnqueueWriteBuffer", clEnqueueWriteBuffer(gCommandQueue, gOrigin, CL_TRUE, 0, sizeof(uint64_t) * 6104, set, 0, NULL, NULL));
+		checkError("clEnqueueWriteBuffer", clEnqueueWriteBuffer(gCommandQueue, gOrigin, CL_TRUE, 0, sizeof(uint64_t), &worldSeed, 0, NULL, NULL));
 
 		// メモリオブジェクトをカーネル関数の引数にセット
 		checkError("clSetKernelArg 1", clSetKernelArg(kernel, 0, sizeof(cl_mem), &gResult));
 		checkError("clSetKernelArg 2", clSetKernelArg(kernel, 1, sizeof(cl_mem), &gOrigin));
 
 		// カーネルの呼び出し
-		checkError("clEnqueueNDRangeKernel", clEnqueueNDRangeKernel(gCommandQueue, kernel, 2, NULL, globalWorkSize, NULL, 0, NULL, NULL));
+		checkError("clEnqueueNDRangeKernel", clEnqueueNDRangeKernel(gCommandQueue, kernel, 3, NULL, globalWorkSize, NULL, 0, NULL, NULL));
 
 		// dev to host メモリ転送
-		checkError("clEnqueueReadBuffer", clEnqueueReadBuffer(gCommandQueue, gResult, CL_TRUE, 0, sizeof(char) * 622 * 622, result, 0, NULL, NULL));
+		checkError("clEnqueueReadBuffer", clEnqueueReadBuffer(gCommandQueue, gResult, CL_TRUE, 0, sizeof(char) * num, result, 0, NULL, NULL));
 
-		for (z = 0; z < 622; z++) {
-			for (x = 0; x < 622; x++) {
-				if (result[z * 622 + x] >= 16) {
-					cont = 0;
-					std::cout << "found!: " << worldSeed << ", " << x - 312 << ", " << z - 312 << std::endl;
-				}
+		for (x = 0; x < num; x++) {
+			if (result[x]) {
+				cont = 0;
+				std::cout << "found!: " << worldSeed + x << std::endl;
 			}
 		}
-		if ((worldSeed & 0x3fffL) == 0x3fffL) {
-			std::cout << "done: " << worldSeed << std::endl;
-		}
 	}
-
+	std::cout << seed << std::endl;
 	clFinish(gCommandQueue);
 	// メモリオブジェクト開放
 	clReleaseMemObject(gResult);
