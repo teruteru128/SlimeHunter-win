@@ -62,12 +62,11 @@ int main(int argc, char* argv[], char* env[])
 	if (signal(SIGINT, handler) == SIG_ERR) {
 		return 1;
 	}
-	std::atomic_uint64_t* seedptr = (std::atomic_uint64_t*)malloc(sizeof(std::atomic_uint64_t));
+	std::atomic_uint64_t* seedptr = new std::atomic_uint64_t(start);
 	if (seedptr == NULL) {
 		perror("seedptr is null");
 		return 1;
 	}
-	*seedptr = start;
 	if (clmainflag) {
 		return clmain(seedptr);
 	}
