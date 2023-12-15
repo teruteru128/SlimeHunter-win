@@ -53,7 +53,6 @@ int main(int argc, char* argv[], char* env[])
 		}
 		else if ((strcmp(argv[i], "--start") || strcmp(argv[i], "-s") == 0) && i + 1 < argc) {
 			start = strtoull(argv[i + 1], NULL, 10);
-			seed = start;
 		}
 		else if (strcmp(argv[1], "--clmain") == 0) {
 			clmainflag = 1;
@@ -63,13 +62,19 @@ int main(int argc, char* argv[], char* env[])
 	if (signal(SIGINT, handler) == SIG_ERR) {
 		return 1;
 	}
-	if (clmainflag) {
-		return clmain();
+	std::atomic_uint64_t* seedptr = (std::atomic_uint64_t*)malloc(sizeof(std::atomic_uint64_t));
+	if (seedptr == NULL) {
+		perror("seedptr is null");
+		return 1;
 	}
-	std::cout << "starting seed: " << seed << std::endl;
+	*seedptr = start;
+	if (clmainflag) {
+		return clmain(seedptr);
+	}
+	std::cout << "starting seed: " << start << std::endl;
 	std::cout << "starting thread: " << threadNum << std::endl;
 
-	Config config;
+	Config config(seedptr);
 
 	std::vector<std::future<Result*>> futures(threadNum);
 	auto startTime = std::chrono::steady_clock::now();
@@ -90,12 +95,12 @@ int main(int argc, char* argv[], char* env[])
 	if (isAllNull) {
 		std::cout << "見つかりませんでした" << std::endl;
 	}
-	auto seeddiff = seed - start;
+	auto seeddiff = *seedptr - start;
 	auto timediff = std::chrono::duration_cast<std::chrono::nanoseconds>(finishTime - startTime).count() / 1e9;
 	std::cout << "計算時間: " << timediff << " 秒" << std::endl;
 	std::cout << "進捗: " << seeddiff << " seeds" << std::endl;
 	std::cout << "計算効率: " << seeddiff / timediff << " seeds/seconds" << std::endl;
-	std::cout << "次回開始シード: " << seed << std::endl;
+	std::cout << "次回開始シード: " << *seedptr << std::endl;
 	system("PAUSE");
 	return EXIT_SUCCESS;
 }

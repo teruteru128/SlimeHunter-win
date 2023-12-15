@@ -12,10 +12,12 @@ using std::bitset;
 
 class Config {
 public:
-	Config();
+	Config(std::atomic_uint64_t*);
 	~Config();
+	std::atomic_uint64_t* getSeed();
 protected:
 private:
+	std::atomic_uint64_t* seed;
 };
 class Result
 {
@@ -46,6 +48,5 @@ inline bool extracted(bitset<625 * 625>* set, size_t pos) {
 
 Result* task(Config* config);
 extern volatile std::atomic_int cont;
-extern volatile std::atomic_uint64_t seed;
 
 #endif

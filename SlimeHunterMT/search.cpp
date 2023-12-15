@@ -20,7 +20,6 @@
 using std::bitset;
 
 volatile std::atomic_int cont = 1;
-volatile std::atomic_uint64_t seed;
 
 Result* task(Config* config) {
 	auto set = new bitset<625 * 625>();
@@ -31,8 +30,9 @@ Result* task(Config* config) {
 	size_t tempZ0;
 	size_t pos = 0;
 	uint64_t worldSeed = 0;
+	std::atomic_uint64_t* ptr = config->getSeed();
 	while (cont) {
-		worldSeed = seed++;
+		worldSeed = std::atomic_fetch_add(ptr, 1);
 		for (z = 620, tempZ0 = 387500; z >= 0; z--, tempZ0 -= 625) {
 			lineCombo = 0;
 			lineComboMax = 1;
@@ -103,10 +103,13 @@ Result* task(Config* config) {
 	return NULL;
 }
 
-Config::Config() {
+Config::Config(std::atomic_uint64_t* seed) {
+	this->seed = seed;
 }
 Config::~Config() {}
-
+std::atomic_uint64_t* Config::getSeed() {
+	return this->seed;
+}
 Result::Result(uint64_t worldSeed, int x, int z)
 {
 	this->worldSeed = worldSeed;

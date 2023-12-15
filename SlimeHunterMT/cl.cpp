@@ -14,7 +14,7 @@ static cl_program compileProgram(cl_context gContext, cl_device_id gDevice, cons
 // bitsetをkernelで扱えるようにunsigned long long* で置き換えーの
 // clで集計関数を書きーの
 // CPUで集計結果をまとめ～の
-int clmain(void) {
+int clmain(std::atomic_uint64_t* seed) {
 	int platformIdx = 0;
 	int deviceIdx = 0;
 	cl_context gContext = NULL;
@@ -70,11 +70,11 @@ int clmain(void) {
 	size_t wordIndex = 0;
 	size_t shift = 0;
 	// カーネルの並列実行数を設定
-	size_t globalWorkSize[3] = { 32, 32, 32 };
+	size_t globalWorkSize[3] = { 1, 1, 1 };
 	size_t num = globalWorkSize[0] * globalWorkSize[1] * globalWorkSize[2];
 	uint64_t worldSeed = 0;
 	while (cont) {
-		worldSeed = std::atomic_fetch_add(&seed, num);
+		worldSeed = std::atomic_fetch_add(seed, num);
 
 		// host to dev メモリ転送
 		checkError("clEnqueueWriteBuffer", clEnqueueWriteBuffer(gCommandQueue, gOrigin, CL_TRUE, 0, sizeof(uint64_t), &worldSeed, 0, NULL, NULL));

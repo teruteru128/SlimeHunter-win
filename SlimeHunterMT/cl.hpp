@@ -10,4 +10,4 @@
     }
 
 int clsample();
-int clmain(void);
+int clmain(std::atomic_uint64_t *seed);
