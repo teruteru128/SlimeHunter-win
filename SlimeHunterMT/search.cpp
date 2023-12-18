@@ -30,56 +30,56 @@ Result* task(Config* config) {
 	while (cont) {
 		worldSeed = std::atomic_fetch_add(ptr, 1);
 		// TODO z = 60000000; z >= 0; z--
-		for (z = 620; z >= 0; z--) {
+		for (z = 308; z >= -312; z--) {
 			skip = 1;
 			// TODO x = 60000000; x >= 0; x--
-			for (x = 620; x >= 0; x--)
+			for (x = 308; x >= -312; x--)
 			{
 				// TODO x - 30000000, z - 30000000
-				if (!isSlimeChunk(worldSeed, x - 312, z - 312)) {
+				if (!isSlimeChunk(worldSeed, x, z)) {
 					x -= 4;
 					continue;
 				}
-				if (!isSlimeChunk(worldSeed, x - 312 + 1, z - 312)) {
+				if (!isSlimeChunk(worldSeed, x + 1, z)) {
 					x -= 3;
 					continue;
 				}
-				if (!isSlimeChunk(worldSeed, x - 312 + 2, z - 312)) {
+				if (!isSlimeChunk(worldSeed, x + 2, z)) {
 					x -= 2;
 					continue;
 				}
-				if (!isSlimeChunk(worldSeed, x - 312 + 3, z - 312)) {
+				if (!isSlimeChunk(worldSeed, x + 3, z)) {
 					x -= 1;
 					continue;
 				}
-				if (!isSlimeChunk(worldSeed, x - 312 + 4, z - 312)) {
+				if (!isSlimeChunk(worldSeed, x + 4, z)) {
 					continue;
 				}
 				skip = 0;
-				if (!(isSlimeChunk(worldSeed, x - 312, z - 312 + 1) && isSlimeChunk(worldSeed, x - 312, z - 312 + 2) && isSlimeChunk(worldSeed, x - 312, z - 312 + 3) && isSlimeChunk(worldSeed, x - 312, z - 312 + 4))) {
+				if (!(isSlimeChunk(worldSeed, x, z + 1) && isSlimeChunk(worldSeed, x, z + 2) && isSlimeChunk(worldSeed, x, z + 3) && isSlimeChunk(worldSeed, x, z + 4))) {
 					x -= 4;
 					continue;
 				}
-				if (!(isSlimeChunk(worldSeed, x - 312 + 1, z - 312 + 1) && isSlimeChunk(worldSeed, x - 312 + 1, z - 312 + 2) && isSlimeChunk(worldSeed, x - 312 + 1, z - 312 + 3) && isSlimeChunk(worldSeed, x - 312 + 1, z - 312 + 4))) {
+				if (!(isSlimeChunk(worldSeed, x + 1, z + 1) && isSlimeChunk(worldSeed, x + 1, z + 2) && isSlimeChunk(worldSeed, x + 1, z + 3) && isSlimeChunk(worldSeed, x + 1, z + 4))) {
 					x -= 3;
 					continue;
 				}
-				if (!(isSlimeChunk(worldSeed, x - 312 + 2, z - 312 + 1) && isSlimeChunk(worldSeed, x - 312 + 2, z - 312 + 2) && isSlimeChunk(worldSeed, x - 312 + 2, z - 312 + 3) && isSlimeChunk(worldSeed, x - 312 + 2, z - 312 + 4))) {
+				if (!(isSlimeChunk(worldSeed, x + 2, z + 1) && isSlimeChunk(worldSeed, x + 2, z + 2) && isSlimeChunk(worldSeed, x + 2, z + 3) && isSlimeChunk(worldSeed, x + 2, z + 4))) {
 					x -= 2;
 					continue;
 				}
-				if (!(isSlimeChunk(worldSeed, x - 312 + 3, z - 312 + 1) && isSlimeChunk(worldSeed, x - 312 + 3, z - 312 + 2) && isSlimeChunk(worldSeed, x - 312 + 3, z - 312 + 3) && isSlimeChunk(worldSeed, x - 312 + 3, z - 312 + 4))) {
+				if (!(isSlimeChunk(worldSeed, x + 3, z + 1) && isSlimeChunk(worldSeed, x + 3, z + 2) && isSlimeChunk(worldSeed, x + 3, z + 3) && isSlimeChunk(worldSeed, x + 3, z + 4))) {
 					x -= 1;
 					continue;
 				}
-				if (!(isSlimeChunk(worldSeed, x - 312 + 4, z - 312 + 1) && isSlimeChunk(worldSeed, x - 312 + 4, z - 312 + 2) && isSlimeChunk(worldSeed, x - 312 + 4, z - 312 + 3) && isSlimeChunk(worldSeed, x - 312 + 4, z - 312 + 4))) {
-					std::cout << "惜しい!" << worldSeed << ", " << ((x - 312) << 4) << ", " << ((z - 312) << 4) << std::endl;
+				if (!(isSlimeChunk(worldSeed, x + 4, z + 1) && isSlimeChunk(worldSeed, x + 4, z + 2) && isSlimeChunk(worldSeed, x + 4, z + 3) && isSlimeChunk(worldSeed, x + 4, z + 4))) {
+					std::cout << "惜しい!" << worldSeed << ", " << (x << 4) << ", " << (z << 4) << std::endl;
 					continue;
 				}
 				cont = 0;
-				std::cout << "見つけたー！[" << worldSeed << ", " << ((x - 312) << 4) << ", " << ((z - 312) << 4) << "]" << std::endl;
+				std::cout << "見つけたー！[" << worldSeed << ", " << (x << 4) << ", " << (z << 4) << "]" << std::endl;
 				// delete set;
-				return new Result(worldSeed, (x - 312) << 4, (z - 312) << 4);
+				return new Result(worldSeed, x << 4, z << 4);
 			}
 			// 4個未満ならスキップ
 			if (skip)
