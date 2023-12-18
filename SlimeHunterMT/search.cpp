@@ -29,10 +29,13 @@ Result* task(Config* config) {
 	std::atomic_uint64_t* ptr = config->getSeed();
 	while (cont) {
 		worldSeed = std::atomic_fetch_add(ptr, 1);
+		// TODO z = 60000000; z >= 0; z--
 		for (z = 620; z >= 0; z--) {
 			skip = 1;
+			// TODO x = 60000000; x >= 0; x--
 			for (x = 620; x >= 0; x--)
 			{
+				// TODO x - 30000000, z - 30000000
 				if (!isSlimeChunk(worldSeed, x - 312, z - 312)) {
 					x -= 4;
 					continue;
