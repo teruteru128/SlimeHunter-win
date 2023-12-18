@@ -30,49 +30,52 @@ Result* task(Config* config) {
 	while (cont) {
 		worldSeed = std::atomic_fetch_add(ptr, 1);
 		// TODO z = 60000000; z >= 0; z--
-		for (z = 308; z >= -312; z--) {
+		z = 308;
+		while (z >= -312) {
 			skip = 1;
 			// TODO x = 60000000; x >= 0; x--
-			for (x = 308; x >= -312; x--)
-			{
+			x = 308;
+			while (x >= -312) {
 				// TODO x - 30000000, z - 30000000
 				if (!isSlimeChunk(worldSeed, x, z)) {
-					x -= 4;
+					x -= 5;
 					continue;
 				}
 				if (!isSlimeChunk(worldSeed, x + 1, z)) {
-					x -= 3;
+					x -= 4;
 					continue;
 				}
 				if (!isSlimeChunk(worldSeed, x + 2, z)) {
-					x -= 2;
+					x -= 3;
 					continue;
 				}
 				if (!isSlimeChunk(worldSeed, x + 3, z)) {
-					x -= 1;
+					x -= 2;
 					continue;
 				}
 				if (!isSlimeChunk(worldSeed, x + 4, z)) {
+					x -= 1;
 					continue;
 				}
 				skip = 0;
 				if (!(isSlimeChunk(worldSeed, x, z + 1) && isSlimeChunk(worldSeed, x, z + 2) && isSlimeChunk(worldSeed, x, z + 3) && isSlimeChunk(worldSeed, x, z + 4))) {
-					x -= 4;
+					x -= 5;
 					continue;
 				}
 				if (!(isSlimeChunk(worldSeed, x + 1, z + 1) && isSlimeChunk(worldSeed, x + 1, z + 2) && isSlimeChunk(worldSeed, x + 1, z + 3) && isSlimeChunk(worldSeed, x + 1, z + 4))) {
-					x -= 3;
+					x -= 4;
 					continue;
 				}
 				if (!(isSlimeChunk(worldSeed, x + 2, z + 1) && isSlimeChunk(worldSeed, x + 2, z + 2) && isSlimeChunk(worldSeed, x + 2, z + 3) && isSlimeChunk(worldSeed, x + 2, z + 4))) {
-					x -= 2;
+					x -= 3;
 					continue;
 				}
 				if (!(isSlimeChunk(worldSeed, x + 3, z + 1) && isSlimeChunk(worldSeed, x + 3, z + 2) && isSlimeChunk(worldSeed, x + 3, z + 3) && isSlimeChunk(worldSeed, x + 3, z + 4))) {
-					x -= 1;
+					x -= 2;
 					continue;
 				}
 				if (!(isSlimeChunk(worldSeed, x + 4, z + 1) && isSlimeChunk(worldSeed, x + 4, z + 2) && isSlimeChunk(worldSeed, x + 4, z + 3) && isSlimeChunk(worldSeed, x + 4, z + 4))) {
+					x -= 1;
 					std::cout << "惜しい!" << worldSeed << ", " << (x << 4) << ", " << (z << 4) << std::endl;
 					continue;
 				}
@@ -84,9 +87,10 @@ Result* task(Config* config) {
 			// 4個未満ならスキップ
 			if (skip)
 			{
-				z -= 4;
+				z -= 5;
 				continue;
 			}
+			z -= 1;
 		}
 	}
 
