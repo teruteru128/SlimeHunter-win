@@ -85,8 +85,7 @@ Result* task(Config* config) {
 				return new Result(worldSeed, x << 4, z << 4);
 			}
 			// 4個未満ならスキップ
-			if (skip)
-			{
+			if (skip) {
 				z -= 5;
 				continue;
 			}
