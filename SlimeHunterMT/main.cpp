@@ -73,6 +73,7 @@ int main(int argc, char* argv[], char* env[])
 	std::cout << "starting seed: " << start << std::endl;
 	std::cout << "starting thread: " << threadNum << std::endl;
 
+	// これアレだな、xzをそれぞれ分割しないと効率悪いやつだな……
 	Config config(seedptr);
 
 	std::vector<std::future<Result*>> futures(threadNum);

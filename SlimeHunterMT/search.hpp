@@ -13,11 +13,20 @@ using std::bitset;
 class Config {
 public:
 	Config(std::atomic_uint64_t*);
+	Config(std::atomic_uint64_t*, int, int, int, int);
 	~Config();
 	std::atomic_uint64_t* getSeed();
+	int getMinX();
+	int getMaxX();
+	int getMinZ();
+	int getMaxZ();
 protected:
 private:
 	std::atomic_uint64_t* seed;
+	int minX;
+	int maxX;
+	int minZ;
+	int maxZ;
 };
 class Result
 {

@@ -20,23 +20,28 @@
 using std::bitset;
 
 volatile std::atomic_int cont = 1;
+constexpr int BLOCK = 25;
 
 Result* task(Config* config) {
 	int skip = 1;
 	int x = 0;
+	// int xx = 0;
+	// int minXX = 0;
+	const int minX = config->getMinX();
+	const int maxX = config->getMaxX();
 	int z = 0;
+	const int minZ = config->getMinZ();
+	const int maxZ = config->getMaxZ();
 	uint64_t worldSeed = 0;
+	const int limit = maxX - 4;
 	std::atomic_uint64_t* ptr = config->getSeed();
 	while (cont) {
 		worldSeed = std::atomic_fetch_add(ptr, 1);
-		// TODO z = 60000000; z >= 0; z--
-		z = 308;
-		while (z >= -312) {
+		z = maxZ;
+		while (z >= minZ) {
 			skip = 1;
-			// TODO x = 60000000; x >= 0; x--
-			x = 308;
-			while (x >= -312) {
-				// TODO x - 30000000, z - 30000000
+			x = maxX;
+			while (x >= minX) {
 				if (!isSlimeChunk(worldSeed, x, z)) {
 					x -= 5;
 					continue;
@@ -81,28 +86,107 @@ Result* task(Config* config) {
 				}
 				cont = 0;
 				std::cout << "見つけたー！[" << worldSeed << ", " << (x << 4) << ", " << (z << 4) << "]" << std::endl;
-				// delete set;
 				return new Result(worldSeed, x << 4, z << 4);
 			}
 			// 4個未満ならスキップ
-			if (skip) {
-				z -= 5;
-				continue;
-			}
-			z -= 1;
+			z -= ((skip) ? 5 : 1);
 		}
+		// スキップのヒット率を上げるためにZ方向だけブロッキングする
+		/*
+		x = maxX;
+		while (x >= minX) {
+			z = maxZ;
+			while (z >= minZ) {
+				xx = std::min(x, limit);
+				minXX = xx - BLOCK;
+				skip = 1;
+				while (xx >= minXX) {
+					if (!isSlimeChunk(worldSeed, xx, z)) {
+						xx -= 5;
+						continue;
+					}
+					if (!isSlimeChunk(worldSeed, xx + 1, z)) {
+						xx -= 4;
+						continue;
+					}
+					if (!isSlimeChunk(worldSeed, xx + 2, z)) {
+						xx -= 3;
+						continue;
+					}
+					if (!isSlimeChunk(worldSeed, xx + 3, z)) {
+						xx -= 2;
+						continue;
+					}
+					if (!isSlimeChunk(worldSeed, xx + 4, z)) {
+						xx -= 1;
+						continue;
+					}
+					skip = 0;
+					if (!(isSlimeChunk(worldSeed, xx, z + 1) && isSlimeChunk(worldSeed, xx, z + 2) && isSlimeChunk(worldSeed, xx, z + 3) && isSlimeChunk(worldSeed, xx, z + 4))) {
+						xx -= 5;
+						continue;
+					}
+					if (!(isSlimeChunk(worldSeed, xx + 1, z + 1) && isSlimeChunk(worldSeed, xx + 1, z + 2) && isSlimeChunk(worldSeed, xx + 1, z + 3) && isSlimeChunk(worldSeed, xx + 1, z + 4))) {
+						xx -= 4;
+						continue;
+					}
+					if (!(isSlimeChunk(worldSeed, xx + 2, z + 1) && isSlimeChunk(worldSeed, xx + 2, z + 2) && isSlimeChunk(worldSeed, xx + 2, z + 3) && isSlimeChunk(worldSeed, xx + 2, z + 4))) {
+						xx -= 3;
+						continue;
+					}
+					if (!(isSlimeChunk(worldSeed, xx + 3, z + 1) && isSlimeChunk(worldSeed, xx + 3, z + 2) && isSlimeChunk(worldSeed, xx + 3, z + 3) && isSlimeChunk(worldSeed, xx + 3, z + 4))) {
+						xx -= 2;
+						continue;
+					}
+					if (!(isSlimeChunk(worldSeed, xx + 4, z + 1) && isSlimeChunk(worldSeed, xx + 4, z + 2) && isSlimeChunk(worldSeed, xx + 4, z + 3) && isSlimeChunk(worldSeed, xx + 4, z + 4))) {
+						xx -= 1;
+						std::cout << "惜しい!" << worldSeed << ", " << (xx << 4) << ", " << (z << 4) << std::endl;
+						continue;
+					}
+					cont = 0;
+					std::cout << "見つけたー！[" << worldSeed << ", " << (xx << 4) << ", " << (z << 4) << "]" << std::endl;
+					return new Result(worldSeed, xx << 4, z << 4);
+				}
+				// 4個未満ならスキップ
+				z -= ((skip) ? 5 : 1);
+			}
+			x -= BLOCK;
+		}
+		*/
 	}
 
 	return NULL;
 }
 
-Config::Config(std::atomic_uint64_t* seed) {
-	this->seed = seed;
+Config::Config(std::atomic_uint64_t* seed) : Config(seed, -312, 308, -312, 308) {
 }
+
+Config::Config(std::atomic_uint64_t* seed, int minX, int maxX, int minZ, int maxZ) :
+	seed(seed), minX(minX), maxX(maxX), minZ(minZ), maxZ(maxZ) {
+}
+
 Config::~Config() {}
+
 std::atomic_uint64_t* Config::getSeed() {
 	return this->seed;
 }
+
+int Config::getMinX() {
+	return this->minX;
+}
+
+int Config::getMaxX() {
+	return this->maxX;
+}
+
+int Config::getMinZ() {
+	return this->minZ;
+}
+
+int Config::getMaxZ() {
+	return this->maxZ;
+}
+
 Result::Result(uint64_t worldSeed, int x, int z)
 {
 	this->worldSeed = worldSeed;
