@@ -92,11 +92,11 @@ int clmain(std::atomic_uint64_t* seed) {
 		for (x = 0; x < num; x++) {
 			if (result[x]) {
 				cont = 0;
-				std::cout << "found!: " << worldSeed + x << std::endl;
+				std::cout << "found!: " << worldSeed <<", " << x << std::endl;
 			}
 		}
 	}
-	std::cout << seed << std::endl;
+	std::cout << *seed << std::endl;
 	clFinish(gCommandQueue);
 	// メモリオブジェクト開放
 	clReleaseMemObject(gResult);

@@ -72,6 +72,13 @@ int main(int argc, char* argv[], char* env[])
 	}
 	std::cout << "starting seed: " << start << std::endl;
 	std::cout << "starting thread: " << threadNum << std::endl;
+	searchMain(seedptr, threadNum, start);
+	system("PAUSE");
+	return EXIT_SUCCESS;
+}
+
+void searchMain(std::atomic_uint64_t* seedptr, int threadNum, const uint64_t& start)
+{
 
 	// これアレだな、xzをそれぞれ分割しないと効率悪いやつだな……
 	Config config(seedptr);
@@ -101,8 +108,6 @@ int main(int argc, char* argv[], char* env[])
 	std::cout << "進捗: " << seeddiff << " seeds" << std::endl;
 	std::cout << "計算効率: " << seeddiff / timediff << " seeds/seconds" << std::endl;
 	std::cout << "次回開始シード: " << *seedptr << std::endl;
-	system("PAUSE");
-	return EXIT_SUCCESS;
 }
 
 // プログラムの実行: Ctrl + F5 または [デバッグ] > [デバッグなしで開始] メニュー

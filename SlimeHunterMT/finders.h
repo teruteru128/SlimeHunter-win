@@ -4,7 +4,7 @@
 #include "rnd.h"
 #include <stdint.h>
 
-#ifdef _cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 	static inline int isSlimeChunk(uint64_t seed, int chunkX, int chunkZ) {
@@ -17,6 +17,6 @@ extern "C" {
 		setSeed(&rnd, rnd);
 		return nextInt(&rnd, 10) == 0;
 	}
-#ifdef _cplusplus
+#ifdef __cplusplus
 }
 #endif
